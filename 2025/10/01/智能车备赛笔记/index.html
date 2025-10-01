@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ternura_xiang的个人博客—智能车大赛备赛笔记 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/imgs/shortcut-icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/public.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/iconfont.css" />
+  <link rel="stylesheet" href="/css/APlayer.min.css" />
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `Ternura_xiang的个人博客—智能车大赛备赛笔记`
+  </script>
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://ternura-xiang.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"智能车大赛备赛笔记","cover":"封面.jpg","path":"2025/10/01/智能车备赛笔记/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="/imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Xiang</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">Run！</span>
+          <span class="main-left--tag">电子</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“热爱可抵岁月漫长”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/20040113wyxsr"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>1</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>3</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>1 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>1 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>1天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.0</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <link rel="stylesheet" href="/css/partial/article.css" />
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">智能车大赛备赛笔记</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E6%99%BA%E8%83%BD%E8%BD%A6/">智能车</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/Python/" rel="tag">Python</a><a class="tag-link" href="/tags/%E6%99%BA%E8%83%BD%E8%BD%A6/" rel="tag">智能车</a><a class="tag-link" href="/tags/%E8%A7%86%E8%A7%89/" rel="tag">视觉</a>
+          </div>
+          
+          <p class="article-info--date">日期：2025-10-01 11:21:58</p>
+        </div>
+        <img src="/%E5%B0%81%E9%9D%A2.jpg" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content markdown-body">
+      <h1 id="智能车大赛备战笔记"><a href="#智能车大赛备战笔记" class="headerlink" title="智能车大赛备战笔记"></a>智能车大赛备战笔记</h1><p>写这篇文章主要是记录我的备战日常、遇到的问题以及解决办法方便自己以后翻阅。同时也希望能给学弟学妹们留下点什么，不会像我一样遇到问题的时候不知道应该怎么办。<br>可能会有很多问题，欢迎大家指出来，相互学习。</p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><p>本人在本次大赛中主要承担视觉的部分，所以往后的文章也会围绕视觉方面展开。由于队内传承，算法方面多借鉴上交AuTop战队的开源，文章的最开始也会致力于实现AuTop算法的实现。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/391252945">第16届智能车智能视觉组-上海交通大学AuTop战队开源汇总 - 知乎 (zhihu.com)</a><br>为方便，将利用python语言实现各算法。</p>
+<h3 id="一、视觉具体任务"><a href="#一、视觉具体任务" class="headerlink" title="一、视觉具体任务"></a>一、视觉具体任务</h3><p>图像二值化 -&gt; 边线提取 -&gt; 标定和透视变换 -&gt; 边线处理 -&gt; 元素识别 -&gt; 路径规划</p>
+<h3 id="二、图像二值化"><a href="#二、图像二值化" class="headerlink" title="二、图像二值化"></a>二、图像二值化</h3><h4 id="1-图像的编码"><a href="#1-图像的编码" class="headerlink" title="1. 图像的编码"></a>1. 图像的编码</h4><p>想要将图像二值化就要先了解计算机是如何处理图片的。<br>图片的编码方式多样，这里只介绍RGB与灰度图像。<br>关于图片编码可以查看这篇文章，个人认为说的很详细了。<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/95952096">图像格式RGB&#x2F;HSV&#x2F;YUV - 知乎 (zhihu.com)</a></p>
+<p><em><strong>RGB</strong></em> -&gt; 图片可以看作是三个二维数组的叠加，每一个数组代表三原色中的一种（R、G、B），而二维数组中的每一位代表一个像素点，从而每个像素点的颜色就可以由三个数组叠加形成。</p>
+<img src="/2025/10/01/%E6%99%BA%E8%83%BD%E8%BD%A6%E5%A4%87%E8%B5%9B%E7%AC%94%E8%AE%B0/RGB%E5%9B%BE%E7%89%87%E5%AD%98%E5%82%A8.png" class="">
+
+<p><em><strong>灰度图像</strong></em> -&gt; 与RGB图像不同，灰度图像的每个像素点的颜色只由白黑两种颜色占比决定，所以我们可以只使用一个二维数组就表示了一整个图像。</p>
+<p>我们以后要处理的图像即是灰度图像。</p>
+<h4 id="2-对于二值化的一些理解"><a href="#2-对于二值化的一些理解" class="headerlink" title="2. 对于二值化的一些理解"></a>2. 对于二值化的一些理解</h4><p> 1.<em><strong>什么是图像二值化？</strong></em><br> -&gt; 图像二值化的本质是图像分割，就是将图像背景和前景分割开的过程。这里也可以简单理解为把灰度图像变为黑白图像的过程。<br> <img src="/2025/10/01/%E6%99%BA%E8%83%BD%E8%BD%A6%E5%A4%87%E8%B5%9B%E7%AC%94%E8%AE%B0/%E4%BA%8C%E5%80%BC%E5%8C%96%E6%95%88%E6%9E%9C%E5%AF%B9%E6%AF%94.jpg" class=""></p>
+<p> 2.<em><strong>为什么要二值化？</strong></em><br> -&gt; 图像二值化的优势在于方便后续对图像的处理。当然，图像的二值化并非必然，我曾经就看到一篇基于灰度图像处理赛道边界的文章，当中使用的方法为识别灰度值的变化，而二值化后仅需要判断像素点是黑&#x2F;白即可。由于没有对灰度图像处理的经验，我们仍采用大众方式将其二值化。<br> 3.<em><strong>二值化的方法</strong></em><br> -&gt; 二值化的方法有很多，这里我们采用最常用的阈值法对图像进行二值化处理。即通过算法求出一个阈值，对图像每个像素点做如下处理：灰度值＞阈值，赋255(黑色) ；灰度值＜阈值，赋0(白色) 。处理后的图像将会是由0和255组成的二维数组，即图像由纯黑白两种颜色组成。<br> <img src="/2025/10/01/%E6%99%BA%E8%83%BD%E8%BD%A6%E5%A4%87%E8%B5%9B%E7%AC%94%E8%AE%B0/%E5%9B%BE%E5%83%8F%E4%BA%8C%E5%80%BC%E5%8C%96%E7%9A%84%E6%9C%BA%E7%90%86.png" class=""></p>
+<h4 id="3-算法实现"><a href="#3-算法实现" class="headerlink" title="3. 算法实现"></a>3. 算法实现</h4><p> 1.<em><strong>图像初始化</strong></em><br> 基于openCV导入图片的操作，并将图像转化为灰度图像。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#图像的初始化</span></span><br><span class="line"><span class="keyword">import</span> cv2  </span><br><span class="line">img = cv2.imread(<span class="string">&quot;xx.jpg&quot;</span>)    <span class="comment"># 生成图片  </span></span><br><span class="line">img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)	<span class="comment">#灰度图像</span></span><br><span class="line">img_I = img_gray  <span class="comment">#处理后的图像</span></span><br><span class="line">HIGH = <span class="number">1106</span> <span class="comment"># 处理的图像的像素-1  </span></span><br><span class="line">LONG = <span class="number">1079</span></span><br><span class="line"></span><br><span class="line">cv2.imshow(<span class="string">&quot;Image&quot;</span>, img_I)     <span class="comment"># 显示图像  </span></span><br><span class="line">cv2.waitKey()	<span class="comment"># 等待图片关闭 </span></span><br></pre></td></tr></table></figure>
+<p>2.<em><strong>二值化的实现</strong></em><br>通过比较阈值与灰度值，实现图像分割。<br>即：<br>$$f(pilex)&#x3D;\begin{cases}<br>255，&amp; f(pilex)&gt;threshold\<br>0，&amp;f(pilex)&lt;threshold\<br>\end{cases}$$<br>其中pilex即当前点的灰度值，threshold即为阈值的大小。<br> <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;图像二值化&quot;&quot;&quot;</span>   </span><br><span class="line">img_high = <span class="number">0</span> <span class="comment"># 正在计算的像素  </span></span><br><span class="line">img_long = <span class="number">0</span> </span><br><span class="line"><span class="keyword">while</span> img_high != HIGH <span class="keyword">or</span> img_long != LONG:     <span class="comment"># 判断是否为右下角  </span></span><br><span class="line">  <span class="keyword">if</span> img_I[img_high][img_long] &gt; threshold:    <span class="comment"># 判断像素与阈值的大小 --&gt; 二值化  </span></span><br><span class="line">	  img_I[img_high][img_long] = <span class="number">255</span>  </span><br><span class="line">  <span class="keyword">else</span>:  </span><br><span class="line">      img_I[img_high][img_long] = <span class="number">0</span>  </span><br><span class="line">  <span class="keyword">if</span> img_long == LONG:  </span><br><span class="line">	  img_high += <span class="number">1</span>  </span><br><span class="line">	  img_long = <span class="number">0</span>  </span><br><span class="line">  <span class="comment"># print(img_high)     # 显示进度条  </span></span><br><span class="line">  <span class="keyword">else</span>:  </span><br><span class="line">	  img_long += <span class="number">1</span></span><br></pre></td></tr></table></figure><br>3.<em><strong>固定阈值法</strong></em><br>即直接给出一个阈值，对所有图像采用同一阈值进行二值化处理。但是由于室内不用位置亮度不同、不同时间点的亮度不同，采用这种方法几乎无法应对时空变化的影响。<br>4.<em><strong>全局均值阈值法</strong></em><br>由于固定阈值不能够适应时空的变化对亮度(即阈值)的影响，所以我们希望对每一帧图像进行单独计算阈值。</p>
+<p>根据名字理解，就是求全图灰度值的平均值对图像进行分割，这种方式的优势在于简单，且运算量极低。但这种算法的适应性较差，由于赛道共两种颜色，如果两种颜色的占比相差很大，阈值会被占比大的一方拉低&#x2F;拉高，这样就会导致一定程度上的误判。</p>
+<p>(PS:这里使用中值理论上也可以实现对图像的分割)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;全局均值阈值法&quot;&quot;&quot;</span>  </span><br><span class="line">pixel_sum = <span class="number">0</span>       <span class="comment"># 总灰度值  </span></span><br><span class="line">pilex_number = <span class="number">0</span>    <span class="comment"># 计算的总格数  </span></span><br><span class="line">img_high = <span class="number">0</span>        <span class="comment"># 正在处理的像素点  </span></span><br><span class="line">img_long = <span class="number">0</span>  </span><br><span class="line">pixel = <span class="number">0</span>           <span class="comment"># 正在处理的像素点的灰度值  </span></span><br><span class="line">threshold = <span class="number">0</span>       <span class="comment"># 阈值  </span></span><br><span class="line"><span class="keyword">for</span> a <span class="keyword">in</span> img_gray:      <span class="comment"># 遍历图像  </span></span><br><span class="line">	<span class="keyword">for</span> pilex <span class="keyword">in</span> a: </span><br><span class="line">		pixel_sum += pilex      <span class="comment"># 计算总灰度值  </span></span><br><span class="line">		pilex_number += <span class="number">1</span>       <span class="comment"># 更新已经计算的格数  </span></span><br><span class="line">threshold = pixel_sum / pilex_number    <span class="comment"># 计算阈值  </span></span><br><span class="line"><span class="comment"># print(threshold)</span></span><br></pre></td></tr></table></figure>
+<p>5.<em><strong>大津法算阈值</strong></em><br>针对上一个全局均值阈值法，我们希望使用一种更科学的算法来找出两种颜色的分割点作为阈值。所以我们引入了大津法来求取阈值。如果我们绘制一个灰度直方图来统计各灰度值有多少个像素点，不难发现图像会大体上呈现双峰形状。这主要是因为图像主要有两种颜色构成，而每种颜色对应一个灰度值。那么如果我们能够找到两峰中的某一点作为阈值，就能够将背景与赛道分割开。</p>
+<p>关于大津法网上有太多的教程了，无法讲的很详细，在这里我放出几个当时我看的链接。<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/a15779627836/article/details/124151125?spm=1001.2014.3001.5506"> Otsu算法——最大类间方差法（大津算法）</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_38024332/article/details/104226806?spm=1001.2014.3001.5506">大津法（OTSU 最大类间方差法）详细数学推导（公式繁杂，欢迎讨论）_</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/leonardohaig/article/details/120269341?spm=1001.2014.3001.5506"> otsu算法详细推导、实现及Multi Level OTSU算法实现_</a><br>最后是代码实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;大津法&quot;&quot;&quot;</span>   </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">Otsu</span> ():  </span><br><span class="line">	gray = [<span class="number">0</span>] * <span class="number">256</span> <span class="comment"># 储存各个灰度值的个数  </span></span><br><span class="line">	gray_sum_foreground = <span class="number">0</span> <span class="comment"># 储存 灰度*个数 前景  </span></span><br><span class="line">	gray_sum_background = <span class="number">0</span> <span class="comment"># 储存 灰度*个数 背景  </span></span><br><span class="line">    m = <span class="number">0</span> <span class="comment"># 前景与背景的分割点  </span></span><br><span class="line">    maxmium = <span class="number">0</span> <span class="comment"># 类间方差法结果计算位  </span></span><br><span class="line">    au = <span class="number">0</span> <span class="comment"># 类间方差法结果比较位  </span></span><br><span class="line">    threshold = <span class="number">0</span> <span class="comment"># 阈值储存位  </span></span><br><span class="line">    foreground_sum = <span class="number">0</span> <span class="comment"># 前景像素个数  </span></span><br><span class="line">    background_sum = <span class="number">0</span> <span class="comment"># 后景像素个数  </span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> img_gray:  <span class="comment"># 遍历图像 --&gt; 创建灰度值对应个数的列表  </span></span><br><span class="line">	    <span class="keyword">for</span> pilex <span class="keyword">in</span> a:  </span><br><span class="line">	        gray[pilex] += <span class="number">1</span> <span class="comment"># 更新该灰度值的个数  </span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> m <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">255</span>):  <span class="comment"># 遍历全部灰度值 --&gt; 寻找最大类间方差法点  </span></span><br><span class="line">    foreground_sum = <span class="number">0</span> <span class="comment"># 前景像素个数  </span></span><br><span class="line">    background_sum = <span class="number">0</span> <span class="comment"># 后景像素个数  </span></span><br><span class="line">    gray_sum_foreground = <span class="number">0</span> <span class="comment"># 储存 灰度*个数 前景  </span></span><br><span class="line">    gray_sum_background = <span class="number">0</span> <span class="comment"># 储存 灰度*个数 背景  </span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, m):  </span><br><span class="line">	    gray_sum_foreground += gray[n] * n  </span><br><span class="line">        foreground_sum += gray[n]  </span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(m, <span class="number">255</span>):  </span><br><span class="line">        gray_sum_background += gray[n] * n  </span><br><span class="line">        background_sum += gray[n]  </span><br><span class="line">  </span><br><span class="line">    w0 = foreground_sum / (HIGH + <span class="number">1</span> * LONG + <span class="number">1</span>)  <span class="comment"># 计算前景平均灰度</span></span><br><span class="line">    w1 = background_sum / (HIGH + <span class="number">1</span> * LONG + <span class="number">1</span>)  <span class="comment"># 计算背景平均灰度</span></span><br><span class="line">    <span class="keyword">if</span> foreground_sum == <span class="number">0</span>:     <span class="comment"># 排除当前灰度值的个数为0的计算报错  </span></span><br><span class="line">		m0 = <span class="number">0</span>  </span><br><span class="line">    <span class="keyword">else</span>:  </span><br><span class="line">        m0 = gray_sum_foreground / foreground_sum   <span class="comment"># 计算前景像素点占比  </span></span><br><span class="line">    <span class="keyword">if</span> background_sum == <span class="number">0</span>:  </span><br><span class="line">        m1 = <span class="number">0</span>  </span><br><span class="line">    <span class="keyword">else</span>:  </span><br><span class="line">        m1 = gray_sum_background / background_sum   <span class="comment"># 计算背景像素点占比  </span></span><br><span class="line">    maxmium = w0 * w1 * (m0 - m1) ** <span class="number">2</span> <span class="comment"># 计算类间方差  </span></span><br><span class="line">    <span class="keyword">if</span> maxmium &gt;= au:       <span class="comment"># 与目前为止最大的类间方差比较  </span></span><br><span class="line">	    threshold = m       <span class="comment"># 更新阈值  </span></span><br><span class="line">	    au = maxmium        <span class="comment"># 更新最大类间方差值  </span></span><br><span class="line">    <span class="comment"># print(threshold)  </span></span><br><span class="line">    <span class="keyword">return</span> threshold</span><br></pre></td></tr></table></figure>
+<p>PS: 如果采用先寻找两个高峰，再寻找两个高峰之间的最低点的方式，在数据允许的情况下可以减少计算量，同时也能够获得相对有效的二值化结果。<br>6.<em><strong>自适应阈值</strong></em><br>上面的算法已经能够很好的对一张图像进行二值化处理，但是实际过程中会由于反光等因素，导致图像的某片区域亮度明显高于其他区域。自适应阈值算法的提出是为了解决图像各位置亮度不同，即排除光线对二值化的影响。如图为经过大津法处理后的图像：</p>
+<img src="/2025/10/01/%E6%99%BA%E8%83%BD%E8%BD%A6%E5%A4%87%E8%B5%9B%E7%AC%94%E8%AE%B0/%E6%9C%AA%E8%87%AA%E9%80%82%E5%BA%94%E9%98%88%E5%80%BC.jpg" class="">
+
+<p>如果直接对整图进行同一二值化处理会出现白块&#x2F;黑块，导致赛道信息丢失，之所以会出现这种现象是由于对整张图像算出的阈值可能无法完美适配于图像的全部区域。即如果图像上有一块亮区，那么这块区域的赛道相对这块区域而言为黑，但对全图而言很有可能会被识别为白，全图二值化后会将该区域直接拉白，但是如果我们只对这一片区域处理，就可以在其中提取到相对黑的赛道。效果图如下：</p>
+<img src="/2025/10/01/%E6%99%BA%E8%83%BD%E8%BD%A6%E5%A4%87%E8%B5%9B%E7%AC%94%E8%AE%B0/%E8%87%AA%E9%80%82%E5%BA%94%E9%98%88%E5%80%BC%E6%95%88%E6%9E%9C%E5%9B%BE.jpg" class="">
+
+<p><strong>算法的思路</strong>：取一个像素点，计算以这一点为中心n×n方阵的灰度值的均值作为这一点的阈值，然后将这个操作遍历全图。对于边线，我的处理方式是对边线进行识别，识别到超出范围后，将取消对超出范围部分的计算。</p>
+<p><strong>算法的缺点</strong>：由于要对每一个像素点进行单独求阈值，所以导致计算的复杂度急剧上升，对性能要求极高，无法满足对整图进行处理。</p>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;自适应二值化&quot;&quot;&quot;</span>  </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">erzhihua</span> (high, long):  </span><br><span class="line">    pixel_sum = <span class="number">0</span> <span class="comment"># 总像素  </span></span><br><span class="line">    pilex_number = <span class="number">0</span> <span class="comment"># 计算的总格数  </span></span><br><span class="line">    pilex_max = <span class="number">3</span> <span class="comment"># 前后左右步进的格数  </span></span><br><span class="line">    long_min = long - pilex_max     <span class="comment"># 左上角坐标  </span></span><br><span class="line">    high_min = high - pilex_max  </span><br><span class="line">    long_max = long + pilex_max     <span class="comment"># 右下角坐标  </span></span><br><span class="line">    high_max = high + pilex_max  </span><br><span class="line">    <span class="keyword">if</span> long_min &lt; <span class="number">0</span>:        <span class="comment"># 判断左上角边线  </span></span><br><span class="line">        long_min = <span class="number">0</span>  </span><br><span class="line">    <span class="keyword">if</span> high_min &lt; <span class="number">0</span>:  </span><br><span class="line">        high_min = <span class="number">0</span>  </span><br><span class="line">    <span class="keyword">if</span> long_max &gt; LONG:     <span class="comment"># 判断右下角边线  </span></span><br><span class="line">        long_max = LONG  </span><br><span class="line">    <span class="keyword">if</span> high_max &gt; HIGH:  </span><br><span class="line">        high_max = HIGH  </span><br><span class="line">    high = high_min         <span class="comment"># 将正在计算的坐标初始化为左上角  </span></span><br><span class="line">    long = long_min  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">while</span> long != long_max <span class="keyword">or</span> high != high_max:     <span class="comment"># 判断是否为右下角  </span></span><br><span class="line">        pixel_sum += img_gray[high][long]  <span class="comment"># 将该点像素加到总像素  </span></span><br><span class="line">        pilex_number += <span class="number">1</span> <span class="comment"># 已经计算的格数  </span></span><br><span class="line">        <span class="keyword">if</span> long == long_max:  <span class="comment"># 如果行满  </span></span><br><span class="line">            high += <span class="number">1</span>  </span><br><span class="line">            long = long_min  </span><br><span class="line">        <span class="keyword">else</span>:  </span><br><span class="line">            long += <span class="number">1</span>  </span><br><span class="line">  </span><br><span class="line">    threshold = (pixel_sum / pilex_number)-<span class="number">3</span> <span class="comment"># 计算阈值  </span></span><br><span class="line">    <span class="keyword">return</span> threshold  </span><br></pre></td></tr></table></figure>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2025/10/01/智能车备赛笔记/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E8%BD%A6%E5%A4%A7%E8%B5%9B%E5%A4%87%E6%88%98%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">智能车大赛备战笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.</span> <span class="toc-text">算法实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%A7%86%E8%A7%89%E5%85%B7%E4%BD%93%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.1.1.</span> <span class="toc-text">一、视觉具体任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9B%BE%E5%83%8F%E4%BA%8C%E5%80%BC%E5%8C%96"><span class="toc-number">1.1.2.</span> <span class="toc-text">二、图像二值化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%9B%BE%E5%83%8F%E7%9A%84%E7%BC%96%E7%A0%81"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1. 图像的编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%AF%B9%E4%BA%8E%E4%BA%8C%E5%80%BC%E5%8C%96%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">2. 对于二值化的一些理解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">3. 算法实现</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"MdOJEw9OrNxXyd4Uzm12ysc4-gzGzoHsz","appKey":"5d3KRHCLwneu0idDDlBRS7fD","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2025/10/01/智能车备赛笔记/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大家好！欢迎来到我的小站，希望你能在这里找到你想要的东西~ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+    <div class="operate-item turn-comment hidden">
+      <i class="iconfont icon-pinglun"></i>
+      <span>查看评论</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"安河桥","artist":"宋冬野","url":"http://ting6.yymp3.net:82/new25/songdongye/11.mp3","cover":"https://img2.baidu.com/it/u=1260056724,1076343118&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"},{"name":"卡布达","artist":"暂无","url":"music/kabuda.mp3","cover":"https://img2.baidu.com/it/u=705831265,2862720033&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll();
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+    });
+  </script>
+</body>
+</html>
