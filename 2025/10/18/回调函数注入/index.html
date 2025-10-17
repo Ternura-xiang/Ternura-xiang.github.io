@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Ternura_xiang的个人博客—tags | Hexo</title>
+  <title>Ternura_xiang的个人博客—回调函数注入 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `Ternura_xiang的个人博客—tags`
+    document.title = `Ternura_xiang的个人博客—回调函数注入`
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -355,24 +355,100 @@
 
 <div class="article-container">
   <div class="article">
-    <h1 class="article-title">tags</h1>
+    <h1 class="article-title">回调函数注入</h1>
     <div class="article-info">
       <div class="article-info--item">
         <div class="article-info--info">
           
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
           
-          <p class="article-info--date">日期：2025-09-30 22:03:16</p>
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/C/" rel="tag">C</a><a class="tag-link" href="/tags/STM32/" rel="tag">STM32</a>
+          </div>
+          
+          <p class="article-info--date">日期：2025-10-18 00:25:00</p>
         </div>
         <img src="/imgs/default-cover.webp" alt="" class="article-cover">
       </div>
     </div>
     <article class="article-content markdown-body">
-      
+      <ul>
+<li><a href="#%E4%B8%80-%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90">一、场景分析</a></li>
+<li><a href="#%E4%BA%8C-%E4%BB%A3%E7%A0%81%E8%AF%A6%E6%83%85">二、代码详情</a><ul>
+<li><a href="#1-%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88">1. 定义函数指针</a></li>
+<li><a href="#2-%E5%AE%9A%E4%B9%89%E6%B3%A8%E5%85%A5%E5%87%BD%E6%95%B0">2. 定义注入函数</a></li>
+<li><a href="#3-%E6%B3%A8%E5%85%A5%E5%87%BD%E6%95%B0">3. 注入函数</a></li>
+<li><a href="#4-%E6%9B%B4%E5%A4%9A%E6%9B%B4%E6%94%B9">4. 更多更改</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="一、场景分析"><a href="#一、场景分析" class="headerlink" title="一、场景分析"></a>一、场景分析</h1><p>我们设想如下的场景，文件架构如下：HAL -&gt; BSP -&gt; HDL -&gt; APP<br>我需要将写在APP层中的函数放入HAL库中的回调函数执行，且每一层只能调用其前一层的函数，那么我们怎么实现在事先不知道APP函数是什么的情况下在HAL中执行呢？</p>
+<h1 id="二、代码详情"><a href="#二、代码详情" class="headerlink" title="二、代码详情"></a>二、代码详情</h1><p>接下来我们通过一个例子来实现上述过程：将APP中定义的函数 <code>APP_Ctrl_Process()</code> 放在HAL中 <code>HAL_TIM_PeriodElapsedCallback()</code> 执行，已有代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app_ctrl.c</span></span><br><span class="line">...</span><br><span class="line"><span class="type">void</span> <span class="title function_">APP_Ctrl_Process</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 获取电机速度</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bsp_tim.c</span></span><br><span class="line">...</span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_TIM_PeriodElapsedCallback</span><span class="params">(TIM_HandleTypeDef *htim)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 空</span></span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-定义函数指针"><a href="#1-定义函数指针" class="headerlink" title="1. 定义函数指针"></a>1. 定义函数指针</h2><ul>
+<li>第一步，我们定义一个函数指针，作为需要注入到回调函数中的模板，所有需要执行的函数都应符合这里定义的输入输出结构：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bsp_tim.h</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// 周期溢出回调</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">void</span> <span class="params">(*BSP_TIM_PeriodElapsedCallback)</span><span class="params">(BSP_TIMx_t tim)</span>; </span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-定义注入函数"><a href="#2-定义注入函数" class="headerlink" title="2. 定义注入函数"></a>2. 定义注入函数</h2><ul>
+<li>第二步，在第一步中我们确定了函数的结构，但是我们不能将HAL层的函数暴露。函数指针本质是一个指针，那么当我们得到这个指针就可以运行这个函数。按照这个思路，我们需要有一个变量来存储这些指针，并在 <code>HAL_TIM_PeriodElapsedCallback()</code> 中执行。所以我们定义一个列表来存储这些指针，在这里我是每一个定时器对应一个函数，可以根据需要修改：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bsp_tim.c</span></span><br><span class="line">...</span><br><span class="line">BSP_TIM_PeriodElapsedCallback g_tim_callbacks[BSP_TIM_NUM] = &#123;<span class="literal">NULL</span>&#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第三步，编写函数来将外部的函数存入到这个数组中：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bsp_tim.c</span></span><br><span class="line">...</span><br><span class="line"><span class="type">void</span> <span class="title function_">BSP_TIM_RegisterPeriodElapsedCallback</span><span class="params">(BSP_TIMx_t tim, BSP_TIM_PeriodElapsedCallback callback)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 注册回调函数</span></span><br><span class="line">    <span class="keyword">if</span>(callback != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        g_tim_callbacks[tim] = callback;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-注入函数"><a href="#3-注入函数" class="headerlink" title="3. 注入函数"></a>3. 注入函数</h2><ul>
+<li>第四步，接下来我们只需要在 <code>HAL_TIM_PeriodElapsedCallback()</code> 中调用就实现了函数注入：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// bsp_tim.c</span></span><br><span class="line">...</span><br><span class="line"><span class="type">void</span> <span class="title function_">HAL_TIM_PeriodElapsedCallback</span><span class="params">(TIM_HandleTypeDef *htim)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 将hitm结构体转化为BSP_TIMx_t枚举(需要数字作为数组索引)</span></span><br><span class="line">    BSP_TIMx_t tim = BSP_TIM_FromHandle(htim);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 参数有效性检查</span></span><br><span class="line">    <span class="keyword">if</span> (tim &lt; BSP_TIM_NUM)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 如果用户注册了回调函数，则调用它</span></span><br><span class="line">        <span class="keyword">if</span> (g_tim_callbacks[tim] != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            g_tim_callbacks[tim](tim);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第五步，接下来我们在APP层中使用 <code>BSP_TIM_RegisterPeriodElapsedCallback()</code> 函数来将自己的回调函数存入数组中，就结束了整个过程：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app_main.c</span></span><br><span class="line">...</span><br><span class="line">BSP_TIM_RegisterPeriodElapsedCallback(Sys_Timer_TIMx, &amp;APP_Ctrl_Process);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-更多更改"><a href="#4-更多更改" class="headerlink" title="4. 更多更改"></a>4. 更多更改</h2><ul>
+<li>第六步，虽然上述代码已经可以正常运行了，但是APP层直接调用BSP的函数显得不够优雅，那么我们继续尝试在HDL层将注入函数封装，并一并将TIMx端口号封装进去，APP层仅需传入函数指针即可，下面是完整实现：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hdl_systimer,h</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">void</span> <span class="params">(*SysTimer_Callback)</span><span class="params">(<span class="type">void</span>)</span>; <span class="comment">// 系统定时器回调函数</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hdl_systimer.c</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// 系统定时器回调函数指针（）</span></span><br><span class="line"><span class="type">static</span> SysTimer_Callback app_callback = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span> <span class="title function_">SysTimer_BSPCallbackAdapter</span><span class="params">(BSP_TIMx_t tim)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(app_callback != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        app_callback();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">SysTimer_RegisterCallback</span><span class="params">(SysTimer_Callback callback)</span></span><br><span class="line">&#123;</span><br><span class="line">    app_callback = callback;</span><br><span class="line">    <span class="comment">// 注册系统定时器回调函数</span></span><br><span class="line">    BSP_TIM_RegisterPeriodElapsedCallback(Sys_Timer_TIMx, SysTimer_BSPCallbackAdapter);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// app_main.c</span></span><br><span class="line">...</span><br><span class="line">SysTimer_RegisterCallback(&amp;APP_Ctrl_Process);</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们来解剖一下上面的代码</p>
+<ul>
+<li><ol>
+<li>由于我们要实现APP只传入函数指针，这与我们在 <code>bsp_tim.h</code> 中定义的函数结构不同(之前需要传入TIMx)，所以我们需要重新定义一个函数指针作为APP层使用的函数模板。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>同样的原因，我们不能将APP层的函数直接传入到BSP层的注入函数 <code>BSP_TIM_RegisterPeriodElapsedCallback()</code> ，因为这个函数接受的函数需要有TIMx参数。所以我们需要将新定义的函数模板转化为原来的函数模板，并将TIMx参数直接敲定(对APP层隐藏)</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>按照上面思路，我们按照原来函数指针 <code>BSP_TIM_PeriodElapsedCallback</code> 的格式定义了一个函数，并打算在其中执行我们新的函数模板(因为我们要增加函数的输入参数，因此只能通过新建一个拥有更多输入的函数，并在这个函数中调用原来只有较少参数的函数，完成多出的参数所实现的逻辑功能)。<br>  因此，我们定义了 <code>SysTimer_BSPCallbackAdapter()</code> 并将它作为参数，注入到HAL库的回调函数中。</li>
+</ol>
+</li>
+<li>4.最后，更改APP层的注入函数使用实例。</li>
+</ul>
+
     </article>
     
     <div class="read-nums">
       <!-- id 将作为查询条件 -->
-      <span id="tags/index-1.html" class="leancloud_visitors" data-flag-title="Your Article Title">
+      <span id="2025/10/18/回调函数注入/" class="leancloud_visitors" data-flag-title="Your Article Title">
         <em class="post-meta-item-text">浏览量</em>
         <i class="leancloud-visitors-count"></i>
       </span>
@@ -388,8 +464,18 @@
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">一、场景分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BB%A3%E7%A0%81%E8%AF%A6%E6%83%85"><span class="toc-number">2.</span> <span class="toc-text">二、代码详情</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0%E6%8C%87%E9%92%88"><span class="toc-number">2.1.</span> <span class="toc-text">1. 定义函数指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%AE%9A%E4%B9%89%E6%B3%A8%E5%85%A5%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">2. 定义注入函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B3%A8%E5%85%A5%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">3. 注入函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%9B%B4%E5%A4%9A%E6%9B%B4%E6%94%B9"><span class="toc-number">2.4.</span> <span class="toc-text">4. 更多更改</span></a></li></ol></li></ol>
       </div>
+      
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2025/10/01/智能车备赛笔记/">智能车大赛备赛笔记</a>
+            </p>
+          
+        </div>
       
     </div>
   </div>
@@ -408,7 +494,7 @@
     recordIP: config.recordIP,
     visitor: config.visitor,
     enableQQ: config.enableQQ,
-    path: 'tags/index-1.html'
+    path: '2025/10/18/回调函数注入/'
   })
 </script>
 
