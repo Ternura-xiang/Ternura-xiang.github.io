@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Ternura_xiang的个人博客—小站首页 | Hexo</title>
+  <title>Ternura_xiang的个人博客—C语言函数值转换与位解释 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `Ternura_xiang的个人博客—小站首页`
+    document.title = `Ternura_xiang的个人博客—C语言函数值转换与位解释`
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -348,58 +348,157 @@
     </div>
   </div>
 </div></div>
-      <div id="main-container" class="main-container"><link rel="stylesheet" href="/css/partial/archive.css" />
+      <div id="main-container" class="main-container">
 
 
+  <link rel="stylesheet" href="/css/partial/article.css" />
 
-    <div class="archive">
-        <h1 class="archive-title">我の博客归档记录</h1>
-        <ul class="archive-list">
-            
-                <li class="archive-list__year">
-                    <h2>2025年</h2>
-                    <ul>
-                        
-                            <li class="archive-list__month">
-                                <h3>第10の月</h3>
-                                <ul>
-                                    
-                                        <li class="archive-list__post">
-                                            <div>
-                                                <a href="/2025/10/18/回调函数注入/">回调函数注入</a>
-                                                <span>10月18日</span>
-                                            </div>
-                                        </li>
-                                    
-                                        <li class="archive-list__post">
-                                            <div>
-                                                <a href="/2025/10/21/嵌入式C语言空指针错误分析与修复/">嵌入式C语言空指针错误分析与修复</a>
-                                                <span>10月21日</span>
-                                            </div>
-                                        </li>
-                                    
-                                        <li class="archive-list__post">
-                                            <div>
-                                                <a href="/2025/10/01/智能车备赛笔记/">智能车大赛备赛笔记</a>
-                                                <span>10月01日</span>
-                                            </div>
-                                        </li>
-                                    
-                                        <li class="archive-list__post">
-                                            <div>
-                                                <a href="/2025/10/23/C语言函数值转换与位解释/">C语言函数值转换与位解释</a>
-                                                <span>10月23日</span>
-                                            </div>
-                                        </li>
-                                    
-                                </ul>
-                            </li>
-                        
-                    </ul>
-                </li>
-            
-        </ul>
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">C语言函数值转换与位解释</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/C/" rel="tag">C</a><a class="tag-link" href="/tags/%E6%8C%87%E9%92%88/" rel="tag">指针</a>
+          </div>
+          
+          <p class="article-info--date">日期：2025-10-23 00:12:00</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
     </div>
+    <article class="article-content markdown-body">
+      <ul>
+<li><a href="#%E4%B8%80%E3%80%81%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90">一、场景分析</a><ul>
+<li><a href="#1-%E5%80%BC%E8%BD%AC%E6%8D%A2">1.值转换</a></li>
+<li><a href="#2-%E4%BD%8D%E8%A7%A3%E9%87%8A">2. 位解释</a></li>
+<li><a href="#3-%E5%8C%BA%E5%88%AB%E5%88%86%E6%9E%90">3. 区别分析</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8C%E3%80%81%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E">二、详细说明</a><ul>
+<li><a href="#1-%E5%80%BC%E7%9A%84%E8%BD%AC%E6%8D%A2">1.值的转换</a></li>
+<li><a href="#2-%E4%BD%8D%E7%9A%84%E8%A7%A3%E9%87%8A">2.位的解释</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="一、场景分析"><a href="#一、场景分析" class="headerlink" title="一、场景分析"></a>一、场景分析</h1><h2 id="1-值转换"><a href="#1-值转换" class="headerlink" title="1. 值转换"></a>1. 值转换</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">float</span> a = <span class="number">-30</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">test</span><span class="params">(<span class="type">int</span> input)</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;test: %d\n&quot;</span>, input);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    test(a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时结果为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test: <span class="number">-30</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-位解释"><a href="#2-位解释" class="headerlink" title="2. 位解释"></a>2. 位解释</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">float</span> a = <span class="number">-30</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">test</span><span class="params">(<span class="type">int</span> *input)</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;test: %d\n&quot;</span>, *input);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    test((<span class="type">int</span> *)&amp;a);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时运行结果为:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test: <span class="number">0.000000</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-区别分析"><a href="#3-区别分析" class="headerlink" title="3. 区别分析"></a>3. 区别分析</h2><p>-&gt; 在1中直接传入float类型的a，但接受为int，编译器会自动执行 <code>(int)a</code> 来进行强制类型转化。<br>-&gt; 在2中，将a作为指针传入函数，返回值并非-30。这是因为 <code>&amp;a</code> 后就是 <code>a</code> 的地址了， <code>(int *)</code> 则是说明这块地址的数据类型为int，此时二进制数不变，而同样二进制数作为 int 和 float 类型的值不同，造成了如上结果。</p>
+<p>接下来我们编写了如下程序来验证想法：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">float</span> a = <span class="number">-30</span>;</span><br><span class="line"><span class="type">int</span> *b;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">test</span><span class="params">(<span class="type">float</span> *input)</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;test: %f\n&quot;</span>, *input);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    b = (<span class="type">int</span> *)&amp;a;</span><br><span class="line">    test((<span class="type">float</span> *)b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果成功恢复为 -30。</p>
+<h1 id="二、详细说明"><a href="#二、详细说明" class="headerlink" title="二、详细说明"></a>二、详细说明</h1><h2 id="1-值的转换"><a href="#1-值的转换" class="headerlink" title="1. 值的转换"></a>1. 值的转换</h2><p>这是所有“隐式转换”和大部分”显式转换”(如 <code>(float)a</code> )的机制。</p>
+<p>机制核心: 这不是“内存复制”，这是“重新计算”。</p>
+<p>编译器的目标是保持数学上的值不变(或尽可能接近)。它不会把 <code>int</code> 的二进制位直接搬给 <code>float</code>。</p>
+<p><strong>我们拿 int a&#x3D; -30:转 float 举例:</strong></p>
+<ol>
+<li>编译时:  编译器读到 <code>test func(a);</code> 或 <code>float f =(float)a;</code>。</li>
+<li>识别意图:  编译器知道源类型是 <code>int</code>，目标类型是 <code>float</code>。它识别出这是一个“值转换”请求。</li>
+<li>生成指令: 编译器不会生成“内存拷贝”指令。它会生成一条(或几条)特定的CPU浮点转换指令。</li>
+<li>运行时: CPU 执行这条指令。CPU内部的浮点单元(FPU)拿到 <code>int</code> 的值 -30。FPU 会计算出 <code>-30.0f</code> 对应的二进制表示，并将这个全新的二进制存入 <code>float</code> 变量或传递给函数。</li>
+<li>总结: 上述代码中 <code>int -30</code>被丢弃了。CPU 通过计算，生成了一个全新的  <code>float-30.0f</code>。</li>
+</ol>
+<p><strong>unsigned int -&gt;float 也是同理:</strong></p>
+<ol>
+<li><code>unsigned int a</code> 的值是 4,294,967,266。</li>
+<li>编译器生成转换指令。</li>
+<li>CPU 拿到这个值，尝试转成 <code>float</code>。</li>
+<li>CPU发现这个数太大了，float 精度不够，于是FPU 硬件自动进行了舍入，得到了最接近的 4,294,967,296.0f。</li>
+<li>这个舍入后的新值被传递出去。</li>
+</ol>
+<h2 id="2-位的解释"><a href="#2-位的解释" class="headerlink" title="2. 位的解释"></a>2. 位的解释</h2><p>这种机制的目标和“值转换“完全相反。它就是要保持二进制位不变，强行用新的类型去“解释“它。<br>C 语言默认不会这么做，你必须“要花招“来强迫它跳出你思考框架的建议:<br>想实现这种“转换”，你不能用 <code>(float)a</code>，你得用指针。</p>
+
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2025/10/23/C语言函数值转换与位解释/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">一、场景分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%80%BC%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.</span> <span class="toc-text">1. 值转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%8D%E8%A7%A3%E9%87%8A"><span class="toc-number">1.2.</span> <span class="toc-text">2. 位解释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%8C%BA%E5%88%AB%E5%88%86%E6%9E%90"><span class="toc-number">1.3.</span> <span class="toc-text">3. 区别分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">二、详细说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%80%BC%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">2.1.</span> <span class="toc-text">1. 值的转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%8D%E7%9A%84%E8%A7%A3%E9%87%8A"><span class="toc-number">2.2.</span> <span class="toc-text">2. 位的解释</span></a></li></ol></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2025/10/21/嵌入式C语言空指针错误分析与修复/">嵌入式C语言空指针错误分析与修复</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"MdOJEw9OrNxXyd4Uzm12ysc4-gzGzoHsz","appKey":"5d3KRHCLwneu0idDDlBRS7fD","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2025/10/23/C语言函数值转换与位解释/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
 </div>
       <div class="main-right-wrapper"><div class="main-right">
   <div class="main-right--board">
