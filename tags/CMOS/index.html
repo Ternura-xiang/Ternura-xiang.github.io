@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Ternura_xiang的个人博客—log | Hexo</title>
+  <title>Ternura_xiang的个人博客—小站首页 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `Ternura_xiang的个人博客—log`
+    document.title = `Ternura_xiang的个人博客—小站首页`
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -348,28 +348,115 @@
     </div>
   </div>
 </div></div>
-      <div id="main-container" class="main-container">
-
-
-  <link rel="stylesheet" href="/css/partial/log.css" />
+      <div id="main-container" class="main-container"><link rel="stylesheet" href="/css/partial/index.css" />
 
 
 
-<div class="log">
-  
-  
-    <link rel="stylesheet" href="/css/partial/empty.css" />
-
-<div class="empty empty-container">
-  <p>啊哦~</p>
-  <p>这里暂时什么也没有哦o(╥﹏╥)o</p>
+<div class="index">
+  <div class="index-left">
+    
+      <div class="index-article">
+        <!-- <img class="index-article--cover" src="/imgs/default-cover.webp" alt=""> -->
+        <div class="index-article--box">
+          <img class="index-article--cover" data-cover="imgs/default-cover.webp" alt="MOS管基本门逻辑电路" />
+        </div>
+        <div class="index-article--content">
+          <a href="/2025/12/10/MOS%E7%AE%A1%E5%9F%BA%E6%9C%AC%E9%97%A8%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF/">MOS管基本门逻辑电路 </a>
+          <div>
+            
+              <p>
+                <a class="post-category-link" href="/categories/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/">一生一芯</a>
+              </p>
+            
+            
+              <p>
+                <a class="-link" href="/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/" rel="tag">一生一芯</a><span> ◆ </span><a class="-link" href="/tags/IC/" rel="tag">IC</a><span> ◆ </span><a class="-link" href="/tags/CMOS/" rel="tag">CMOS</a>
+              </p>
+            
+          </div>
+          <div class="bg"></div>
+        </div>
+      </div>
+    
+  </div>
+  <div class="index-center">
+    
+  </div>
+  <div class="index-right">
+    <div class="index-right-wrapper">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/">一生一芯</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%99%BA%E8%83%BD%E8%BD%A6/">智能车</a></li></ul>
+      <ul class="tags" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%94%99%E8%AF%AF/" rel="tag">错误</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%86%E8%A7%89/" rel="tag">视觉</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%99%BA%E8%83%BD%E8%BD%A6/" rel="tag">智能车</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8C%87%E9%92%88/" rel="tag">指针</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/" rel="tag">一生一芯</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/STM32/" rel="tag">STM32</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/IC/" rel="tag">IC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CMOS/" rel="tag">CMOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/" rel="tag">C</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/12/">2025年12月</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2025/10/">2025年10月</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
 </div>
 
-  
-</div>
 
+<script>
+  var allImgBoxs = document.querySelectorAll('.index-article--box');
+  var windowHeight = window.innerHeight;
+  var boxs = Array.from(allImgBoxs);
+  var timer = null;
+  boxs.forEach((box, idx) => {
+    if (!window.loadImageSet || !window.loadImageSet.includes(idx)) {
+      box.classList.add('img-loading');
+    } else {
+      const imgDom = box.querySelector('img');
+      imgDom.src = imgDom.dataset.cover;
+    }
+  });
 
-</div>
+  function scrollFn() {
+    if (timer) {
+      return;
+    }
+    timer = setTimeout(() => {
+      loadImage();
+      timer = null;
+    }, 100)
+  }
+
+  setTimeout(() => {
+    loadImage();
+  }, 100);
+  if (!window.loadedImage) {
+    document.addEventListener('scroll', scrollFn);
+  }
+
+  function loadImage() {
+    const doc = document.documentElement;
+    const scrollTop = doc.scrollTop;
+    if (boxs.every(box => box.loadedImage)) {
+      document.removeEventListener('scroll', scrollFn);
+      window.loadedImage = 1;
+      return;
+    }
+    boxs.forEach((box, idx) => {
+      if (box.loadedImage) {
+        return;
+      }
+      if (box.getBoundingClientRect().top < windowHeight) {
+        const imgDom = box.querySelector('img');
+        imgDom.src = imgDom.dataset.cover;
+        // 图片成功加载
+        imgDom.onload = () => {
+          box.classList.remove('img-loading');
+          box.loadedImage = true;
+          if (!window.loadImageSet) {
+            window.loadImageSet = [];
+          }
+          window.loadImageSet.push(idx);
+        }
+        // 图片加载失败
+        imgDom.onerror = () => {
+          box.classList.remove('img-loading');
+          box.classList.add('img-error');
+          imgDom.src = '/imgs/404.png';
+        }
+      }
+    });
+  }
+</script> </div>
       <div class="main-right-wrapper"><div class="main-right">
   <div class="main-right--board">
     <div class="main-right--title">

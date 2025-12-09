@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Ternura_xiang的个人博客—log | Hexo</title>
+  <title>Ternura_xiang的个人博客—MOS管基本门逻辑电路 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/css/public.css" />
@@ -16,7 +16,7 @@
 
   <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
   <script>
-    document.title = `Ternura_xiang的个人博客—log`
+    document.title = `Ternura_xiang的个人博客—MOS管基本门逻辑电路`
   </script>
 <!-- hexo injector head_end start -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
@@ -351,23 +351,213 @@
       <div id="main-container" class="main-container">
 
 
-  <link rel="stylesheet" href="/css/partial/log.css" />
+  <link rel="stylesheet" href="/css/partial/article.css" />
 
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">MOS管基本门逻辑电路</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/">一生一芯</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/CMOS/" rel="tag">CMOS</a><a class="tag-link" href="/tags/IC/" rel="tag">IC</a><a class="tag-link" href="/tags/%E4%B8%80%E7%94%9F%E4%B8%80%E8%8A%AF/" rel="tag">一生一芯</a>
+          </div>
+          
+          <p class="article-info--date">日期：2025-12-10 00:40:00</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content markdown-body">
+      <ul>
+<li><a href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8MOS%E7%AE%A1">一、为什么使用MOS管</a><ul>
+<li><a href="#1-%E5%8A%9F%E8%80%97%E6%9C%BA%E5%88%B6">1. 功耗机制</a></li>
+<li><a href="#2-%E8%BE%93%E5%85%A5%E9%98%BB%E6%8A%97%E4%B8%8E%E6%89%87%E5%87%BA">2. 输入阻抗与扇出</a></li>
+<li><a href="#3-%E5%88%B6%E9%80%A0%E4%B8%8E%E9%9B%86%E6%88%90%E5%AF%86%E5%BA%A6">3. 制造与集成密度</a></li>
+<li><a href="#4-%E7%89%B9%E6%AE%8A%E8%AF%B4%E6%98%8E">4. 特殊说明</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8C%E3%80%81MOS%E7%AE%A1%E5%9F%BA%E6%9C%AC%E9%97%A8%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF">二、MOS管基本门逻辑电路</a><ul>
+<li><a href="#1-%E9%9D%9E%E9%97%A8">1. 非门</a></li>
+<li><a href="#2-%E4%B8%8E%E9%9D%9E%E9%97%A8-%E4%B8%8E%E9%97%A8">2. 与非门、与门</a></li>
+<li><a href="#3-%E6%88%96%E9%9D%9E%E9%97%A8-%E6%88%96%E9%97%A8">3. 或非门、或门</a></li>
+<li><a href="#4-%E7%BC%93%E5%86%B2%E5%99%A8">4. 缓冲器</a></li>
+<li><a href="#5-%E6%BC%8F%E6%9E%81%E5%BC%80%E8%B7%AF%E9%97%A8">5. 漏极开路门</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="一、为什么使用MOS管"><a href="#一、为什么使用MOS管" class="headerlink" title="一、为什么使用MOS管"></a>一、为什么使用MOS管</h1><p>在数字集成电路中，MOS（特别是CMOS）彻底淘汰BJT的主要原因可以归结为两个字：<strong>功耗</strong> 和 <strong>密度</strong>。</p>
+<h1 id="1-功耗机制"><a href="#1-功耗机制" class="headerlink" title="1. 功耗机制"></a>1. 功耗机制</h1><p>功耗是BJT被踢出CPU核心的根本原因。</p>
+<ul>
+<li>BJT (电流控制器件): BJT是基极电流 ($I_B$) 控制集电极电流 ($I_C$)。要让BJT保持导通，必须一直灌入电流。<ul>
+<li>后果： 只要电路工作，无论状态是否翻转，都有巨大的静态功耗。</li>
+</ul>
+</li>
+<li>MOS (电压控制器件): MOS是栅源电压 ($V_{GS}$) 控制漏极电流。栅极是绝缘的（Oxide层），理论上直流输入阻抗为无穷大，不消耗直流电流。<ul>
+<li>后果： CMOS电路在逻辑状态静止时（保持0或1），静态功耗几乎为零（$P_{static} \approx 0$）。只有在0和1翻转的瞬间，给电容充放电时才消耗功率。<br>$$P_{CMOS} \approx P_{dynamic} &#x3D; C \cdot V^2 \cdot f$$<br>(如果用BJT造一个拥有100亿晶体管的i9处理器，你需要自带一个核电站来供电，并用液氮来散热。)</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-输入阻抗与扇出"><a href="#2-输入阻抗与扇出" class="headerlink" title="2. 输入阻抗与扇出"></a>2. 输入阻抗与扇出</h1><ul>
+<li>BJT: 输入阻抗低。前一级输出必须提供足够的电流才能驱动后一级。这限制了一个门能同时驱动多少个后级门（扇出系数低）。</li>
+<li>MOS: 输入阻抗极高。驱动MOS主要是给栅极电容充电，直流负载极小。这使得逻辑门的级联变得非常容易。</li>
+</ul>
+<h1 id="3-制造与集成密度"><a href="#3-制造与集成密度" class="headerlink" title="3. 制造与集成密度"></a>3. 制造与集成密度</h1><ul>
+<li>结构： MOS主要是平面结构，自对准工艺成熟，占用硅片面积小。</li>
+<li>缩放（Scaling）： 随着摩尔定律发展，MOS管越做越小，性能反而越好（以前是这样）。而BJT做小了之后，基区宽度很难控制，且会出现严重的漏电和击穿问题。</li>
+</ul>
+<h1 id="4-特殊说明"><a href="#4-特殊说明" class="headerlink" title="4. 特殊说明"></a>4. 特殊说明</h1><ul>
+<li>在射频（RF）、超高速接口（光通信）和功率放大领域，BJT（特别是HBT，异质结双极晶体管）依然吊打MOS。<ul>
+<li>跨导（$g_m$）： 同等电流下，BJT的跨导远高于MOS。这意味着BJT在处理微弱模拟信号时，放大能力更强，噪声更低。</li>
+<li>速度： 在不考虑功耗爆炸的前提下（如ECL逻辑），BJT的开关速度其实快于CMOS。</li>
+</ul>
+</li>
+<li>现代很多高性能芯片（如高性能ADC、射频前端）使用的是 BiCMOS 工艺。<ul>
+<li>内部核心逻辑用CMOS：省电、集成度高。</li>
+<li>输出驱动&#x2F;模拟前端用BJT：驱动能力强、速度快、低噪声。</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、MOS管基本门逻辑电路"><a href="#二、MOS管基本门逻辑电路" class="headerlink" title="二、MOS管基本门逻辑电路"></a>二、MOS管基本门逻辑电路</h1><p>为简化后面的电路，所以我们对NMOS(左)和PMOS(右)进行了简化，后面我们将使用这两个简化后的图来进行构架。<br><img src="https://free.picui.cn/free/2025/12/09/693812602667b.png" alt="CMOS简化图" title="CMOS简化图"></p>
+<h2 id="1-非门"><a href="#1-非门" class="headerlink" title="1. 非门"></a>1. 非门</h2><p>CMOS电路中的基本单元是MOS对管，就是使用P沟道和N沟道MOS对接的一种电路。<br>具体电路如下（这也是CMOS反相器的电路）<br><img src="https://free.picui.cn/free/2025/12/09/693815270c468.png" alt="非门.png"></p>
+<p>在这种情况下：</p>
+<ul>
+<li>当<strong>输入0</strong>：PMOS(上管)导通，NMOS(下管)截至，输出1；</li>
+<li>当<strong>输入1</strong>：PMOS(上管)截至， NMOS(下管)导通，输出0</li>
+</ul>
+<h2 id="2-与非门、与门"><a href="#2-与非门、与门" class="headerlink" title="2. 与非门、与门"></a>2. 与非门、与门</h2><p>首先让我们观察与非门的真值表：</p>
+<table>
+<thead>
+<tr>
+<th align="center">IN1</th>
+<th align="center">IN2</th>
+<th align="center">OUT</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody></table>
+<p>我们发现：任意为0时输出1，全为1时输出0。这种”任意”可以理解为并联，同理”全”即为串联。由此我们设计如下电路：<br><img src="https://free.picui.cn/free/2025/12/09/693815292362e.png" alt="与非门.png"><br>电路中采用两管并联+两管串联结构，可以将MOS理解为开关，由于NMOS和PMOS的互补特性，任一条支路中存在一个CMOS(反相器)电路则必然不会发生短路现象，功能实现。</p>
+<p>在此基础上，当我们在与非门的输出接入一个CMOS反相器即可完成非门电路的设计。如下所示：<br><img src="https://free.picui.cn/free/2025/12/09/69381529c7bed.png" alt="与门.png"></p>
+<h2 id="3-或非门、或门"><a href="#3-或非门、或门" class="headerlink" title="3. 或非门、或门"></a>3. 或非门、或门</h2><p>基于我们上面设计的与门电路，或门的逻辑与与门完全相反，只需要将NMOS、PMOS充当的并串联角色互换即可完成设计，如下：<br><img src="https://free.picui.cn/free/2025/12/09/69381568e810a.png" alt="或非门及或门.png"></p>
+<h2 id="4-缓冲器"><a href="#4-缓冲器" class="headerlink" title="4. 缓冲器"></a>4. 缓冲器</h2><p>这是一个看起来简单，但实际上决定了芯片“能不能跑起来”和“能跑多快”的关键器件。<br><img src="https://free.picui.cn/free/2025/12/09/69384322d3f5d.png" alt="缓冲器.png"></p>
+<ul>
+<li>增强驱动能力： Buffer通常由两级反相器（Inverter）串联组成，但第二级晶体管做得很大。<ul>
+<li>它输入阻抗极大（不消耗前级的电流，呵护前级“林黛玉”）。</li>
+<li>它输出阻抗极低（能提供巨大的瞬态电流）。</li>
+</ul>
+</li>
+<li>信号整形：CMOS Buffer有很高的增益。只要输入电压超过阈值（如 $V_{dd}&#x2F;2$），输出就会瞬间翻转。它能把那些半死不活、含含糊糊的输入波形，重新整形成边缘陡峭、干脆利落的完美方波。</li>
+<li>隔离：Buffer挡在中间做“替死鬼”。因为输入输出之间是栅极氧化层隔离的，后级的脏东西很难反向影响到前级敏感电路。</li>
+</ul>
+<h2 id="5-漏极开路门"><a href="#5-漏极开路门" class="headerlink" title="5. 漏极开路门"></a>5. 漏极开路门</h2><p><img src="https://free.picui.cn/free/2025/12/10/6938516a49486.png" alt="OD门.png"></p>
+<ul>
+<li>工作需外接上拉电阻</li>
+<li>与非逻辑不变</li>
+<li>可以实现线与功能</li>
+</ul>
 
-
-<div class="log">
-  
-  
-    <link rel="stylesheet" href="/css/partial/empty.css" />
-
-<div class="empty empty-container">
-  <p>啊哦~</p>
-  <p>这里暂时什么也没有哦o(╥﹏╥)o</p>
+    </article>
+    
+    <div class="read-nums">
+      <!-- id 将作为查询条件 -->
+      <span id="2025/12/10/MOS管基本门逻辑电路/" class="leancloud_visitors" data-flag-title="Your Article Title">
+        <em class="post-meta-item-text">浏览量</em>
+        <i class="leancloud-visitors-count"></i>
+      </span>
+    </div>
+    <div class="comments-intro">
+      <h2>评论区</h2>
+      <p>欢迎你留下宝贵的意见，昵称输入QQ号会显示QQ头像哦~</p>
+    </div>
+    <div id="vcomments" class="vcomments"></div>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8MOS%E7%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">一、为什么使用MOS管</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%8A%9F%E8%80%97%E6%9C%BA%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">1. 功耗机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E8%BE%93%E5%85%A5%E9%98%BB%E6%8A%97%E4%B8%8E%E6%89%87%E5%87%BA"><span class="toc-number">3.</span> <span class="toc-text">2. 输入阻抗与扇出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%88%B6%E9%80%A0%E4%B8%8E%E9%9B%86%E6%88%90%E5%AF%86%E5%BA%A6"><span class="toc-number">4.</span> <span class="toc-text">3. 制造与集成密度</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E7%89%B9%E6%AE%8A%E8%AF%B4%E6%98%8E"><span class="toc-number">5.</span> <span class="toc-text">4. 特殊说明</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81MOS%E7%AE%A1%E5%9F%BA%E6%9C%AC%E9%97%A8%E9%80%BB%E8%BE%91%E7%94%B5%E8%B7%AF"><span class="toc-number">6.</span> <span class="toc-text">二、MOS管基本门逻辑电路</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%9D%9E%E9%97%A8"><span class="toc-number">6.1.</span> <span class="toc-text">1. 非门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%8E%E9%9D%9E%E9%97%A8%E3%80%81%E4%B8%8E%E9%97%A8"><span class="toc-number">6.2.</span> <span class="toc-text">2. 与非门、与门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%88%96%E9%9D%9E%E9%97%A8%E3%80%81%E6%88%96%E9%97%A8"><span class="toc-number">6.3.</span> <span class="toc-text">3. 或非门、或门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BC%93%E5%86%B2%E5%99%A8"><span class="toc-number">6.4.</span> <span class="toc-text">4. 缓冲器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%BC%8F%E6%9E%81%E5%BC%80%E8%B7%AF%E9%97%A8"><span class="toc-number">6.5.</span> <span class="toc-text">5. 漏极开路门</span></a></li></ol></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2025/10/23/C语言函数值转换与位解释/">C语言函数值转换与位解释</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
 </div>
 
-  
-</div>
 
+<script>
+  // var定义，避免pjax重新进来造成的重复声明错误
+  var config = JSON.parse('{"enable":true,"appId":"MdOJEw9OrNxXyd4Uzm12ysc4-gzGzoHsz","appKey":"5d3KRHCLwneu0idDDlBRS7fD","placeholder":"请留下你宝贵的意见吧~","meta":["nick"],"recordIP":true,"visitor":true,"enableQQ":true}')
+  new Valine({
+    el: '#vcomments',
+    appId: config.appId,
+    appKey: config.appKey,
+    placeholder: config.placeholder,
+    meta: config.meta,
+    recordIP: config.recordIP,
+    visitor: config.visitor,
+    enableQQ: config.enableQQ,
+    path: '2025/12/10/MOS管基本门逻辑电路/'
+  })
+</script>
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
 
 </div>
       <div class="main-right-wrapper"><div class="main-right">
