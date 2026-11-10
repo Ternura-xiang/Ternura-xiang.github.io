@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
 <!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
 
+
 <style>
   .load {
     width: 100%;
@@ -197,7 +198,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"C语言函数值转换与位解释","path":"2025/10/23/C语言函数值转换与位解释/"},{"title":"回调函数注入","path":"2025/10/18/回调函数注入/"},{"title":"MOS管基本门逻辑电路","path":"2025/12/10/MOS管基本门逻辑电路/"},{"title":"智能车大赛备赛笔记","cover":"https://free.picui.cn/free/2025/10/01/68dcc8b612578.jpg","path":"2025/10/01/智能车备赛笔记/"},{"title":"嵌入式C语言空指针错误分析与修复","path":"2025/10/21/嵌入式C语言空指针错误分析与修复/"}]`)
+  const posts = JSON.parse(`[{"title":"C语言函数值转换与位解释","path":"2025/10/23/C语言函数值转换与位解释/"},{"title":"LTE 3GPP指标(1) - 功率 (Power)","path":"2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/"},{"title":"LTE 3GPP指标(0) - 测试条件","path":"2026/01/23/LTE 3GPP指标(0) -_ 测试条件/"},{"title":"LTE 3GPP指标(2) - 调制质量 & 频谱形状","path":"2026/01/23/LTE 3GPP指标(2) -_ 调制质量 & 频谱形状/"},{"title":"LTE 3GPP指标(4) - 阻塞 & 互调","path":"2026/01/23/LTE 3GPP指标(4) -_ 阻塞 & 互调/"},{"title":"LTE 3GPP指标(5) - 杂散发射","path":"2026/01/23/LTE 3GPP指标(5) -_ 杂散发射/"},{"title":"LTE 3GPP指标(3) - 灵敏度 (Sensitivity)","path":"2026/01/23/LTE 3GPP指标(3) -_ 灵敏度 (Sensitivity)/"},{"title":"LTE射频发送链路","path":"2026/01/23/LTE射频发送链路/"},{"title":"MOS管基本门逻辑电路","path":"2025/12/10/MOS管基本门逻辑电路/"},{"title":"回调函数注入","path":"2025/10/18/回调函数注入/"},{"title":"嵌入式C语言空指针错误分析与修复","path":"2025/10/21/嵌入式C语言空指针错误分析与修复/"},{"title":"无源器件及其指标","path":"2026/01/23/无源器件及其指标/"},{"title":"智能车大赛备赛笔记","cover":"https://free.picui.cn/free/2025/10/01/68dcc8b612578.jpg","path":"2025/10/01/智能车大赛备赛笔记/"},{"title":"缩写速查表","path":"2026/01/23/缩写速查表/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -268,13 +269,13 @@
         </a>
         <a href="/tags">
           <div>
-            <span>10</span>
+            <span>12</span>
             <span>标签</span>
           </div>
         </a>
         <a href="/archives">
           <div>
-            <span>2 </span>
+            <span>3 </span>
             <span>归档</span>
           </div>
         </a>
@@ -331,7 +332,7 @@
       </h5>
       <p class="main-left--subtitle">
         <span>文章数目：</span>
-        <span>5 篇</span>
+        <span>14 篇</span>
       </p>
       <p class="main-left--subtitle">
         <span>最近动态：</span>
@@ -339,7 +340,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>70天</span>
+        <span>406天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -385,11 +386,6 @@
       <span>回到顶部</span>
     </div>
     
-    <div class="operate-item turn-comment hidden">
-      <i class="iconfont icon-pinglun"></i>
-      <span>查看评论</span>
-    </div>
-    
   </div>
 
   <div class="main-right--site">
@@ -425,7 +421,7 @@
   }
 
   setOperateItem()
-  const musics = JSON.parse(`[{"name":"Reset","artist":"向井太一","url":"music/Reset.mp3","cover":"/imgs/Reset%E9%9F%B3%E4%B9%90%E5%9B%BE%E6%A0%87.png"}]`)
+  const musics = JSON.parse(`[{"name":"Reset","artist":"向井太一","url":"/music/Reset.mp3","cover":"/imgs/Reset%E9%9F%B3%E4%B9%90%E5%9B%BE%E6%A0%87.png"}]`)
   const ap = new APlayer({
     container: document.querySelector('#aplayer'),
     audio: musics,

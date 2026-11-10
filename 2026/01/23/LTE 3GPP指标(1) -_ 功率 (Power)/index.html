@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ternura_xiang的个人博客—LTE 3GPP指标(1) - 功率 (Power) | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/public.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/iconfont.css" />
+  <link rel="stylesheet" href="/css/APlayer.min.css" />
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `Ternura_xiang的个人博客—LTE 3GPP指标(1) - 功率 (Power)`
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://ternura-xiang.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"C语言函数值转换与位解释","path":"2025/10/23/C语言函数值转换与位解释/"},{"title":"LTE 3GPP指标(1) - 功率 (Power)","path":"2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/"},{"title":"LTE 3GPP指标(0) - 测试条件","path":"2026/01/23/LTE 3GPP指标(0) -_ 测试条件/"},{"title":"LTE 3GPP指标(2) - 调制质量 & 频谱形状","path":"2026/01/23/LTE 3GPP指标(2) -_ 调制质量 & 频谱形状/"},{"title":"LTE 3GPP指标(4) - 阻塞 & 互调","path":"2026/01/23/LTE 3GPP指标(4) -_ 阻塞 & 互调/"},{"title":"LTE 3GPP指标(5) - 杂散发射","path":"2026/01/23/LTE 3GPP指标(5) -_ 杂散发射/"},{"title":"LTE 3GPP指标(3) - 灵敏度 (Sensitivity)","path":"2026/01/23/LTE 3GPP指标(3) -_ 灵敏度 (Sensitivity)/"},{"title":"LTE射频发送链路","path":"2026/01/23/LTE射频发送链路/"},{"title":"MOS管基本门逻辑电路","path":"2025/12/10/MOS管基本门逻辑电路/"},{"title":"回调函数注入","path":"2025/10/18/回调函数注入/"},{"title":"嵌入式C语言空指针错误分析与修复","path":"2025/10/21/嵌入式C语言空指针错误分析与修复/"},{"title":"无源器件及其指标","path":"2026/01/23/无源器件及其指标/"},{"title":"智能车大赛备赛笔记","cover":"https://free.picui.cn/free/2025/10/01/68dcc8b612578.jpg","path":"2025/10/01/智能车大赛备赛笔记/"},{"title":"缩写速查表","path":"2026/01/23/缩写速查表/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="/imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Xiang</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">Run！</span>
+          <span class="main-left--tag">电子</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“人生没有终点，只愿不留遗憾”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Ternura-xiang"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>3</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>12</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>3 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>14 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>406天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.0</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <link rel="stylesheet" href="/css/partial/article.css" />
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">LTE 3GPP指标(1) - 功率 (Power)</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/3GPP/" rel="tag">3GPP</a><a class="tag-link" href="/tags/LTE/" rel="tag">LTE</a>
+          </div>
+          
+          <p class="article-info--date">日期：2026-01-23 00:12:01</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content markdown-body">
+      <p>[toc]</p>
+<h1 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h1><p>Level 1: 入门级 - 只要电路通了就能过<br>关键词： 功率 (Power)<br>涉及章节： 36.101 Clause 6.2 &amp; 6.3<br>这一层最简单，主要看你的 PA（功率放大器）能不能正常工作，通路是不是通的。</p>
+<table>
+<thead>
+<tr>
+<th>指标名称</th>
+<th>中文名</th>
+<th>难度</th>
+<th>一句话解释</th>
+<th>硬件看什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Max Output Power</td>
+<td>最大输出功率</td>
+<td>⭐</td>
+<td>手机能不能喊出 23dBm？</td>
+<td>检查 PA 供电、PA 输入功率、通路损耗。</td>
+</tr>
+<tr>
+<td>Min Output Power</td>
+<td>最小输出功率</td>
+<td>⭐</td>
+<td>手机能不能把声音压到 -40dBm 以下？</td>
+<td>检查 PA 的增益控制范围，防止“关不严”。</td>
+</tr>
+<tr>
+<td>Transmit OFF Power</td>
+<td>关断功率</td>
+<td>⭐</td>
+<td>不发信号时，能不能彻底闭嘴？</td>
+<td>检查 PA 的 Enable 信号时序。</td>
+</tr>
+<tr>
+<td>On&#x2F;Off Time Mask</td>
+<td>开关时间蒙皮</td>
+<td>⭐⭐</td>
+<td>功率升起来和降下去的速度对不对？</td>
+<td>这是一个时域指标，检查 PA 的电源和控制信号的上升&#x2F;下降沿。</td>
+</tr>
+<tr>
+<td>Absolute Power Control Tolerance</td>
+<td>绝对功率控制容限</td>
+<td>⭐⭐</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<ul>
+<li>通关标志： 你的板子能连上综测仪，且功率显示正常。</li>
+</ul>
+<h1 id="一、UE-Maximum-Output-Power-UE-最大输出功率"><a href="#一、UE-Maximum-Output-Power-UE-最大输出功率" class="headerlink" title="一、UE Maximum Output Power (UE 最大输出功率)"></a>一、UE Maximum Output Power (UE 最大输出功率)</h1><h2 id="1-文档索引"><a href="#1-文档索引" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.2.2 (P268)</li>
+<li>测试条件： Table 6.2.2.4.1-1 (P271)</li>
+<li>测试标准： Table 6.2.2.5-1 (P273)</li>
+</ul>
+<h2 id="2-核心描述"><a href="#2-核心描述" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>这是手机发射机的“嗓门上限”。<br>测试时，综测仪会发送 TPC (Transmit Power Control) 指令，命令手机 “All Up”（不断增加功率），直到手机达到其硬件或软件设定的饱和点。</p>
+<ul>
+<li>注意： 此项测试专门寻找 MPR &#x3D; 0 的场景，即 PA 没有任何回退、火力全开的状态。因此，测试配置通常选用 <strong>QPSK</strong> 调制，搭配 1 RB（测边缘能力）或 部分 RB（测核心推力），而不是 Full RB。</li>
+</ul>
+<h2 id="3-测试目的"><a href="#3-测试目的" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>保证覆盖范围： 验证手机在小区边缘（弱信号区域）能否以足够的功率发射信号，确保不掉线。</li>
+<li>验证硬件极限： 确认 PA (功率放大器) 的物理输出能力、电源供电能力以及射频前端通路的插损（Insertion Loss）是否满足设计要求。</li>
+<li>合规性： 确保发射功率不超过规定值，避免干扰其他设备（同时也为了省电）。</li>
+</ul>
+<h2 id="4-常见问题"><a href="#4-常见问题" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><ul>
+<li>功率偏低 (Fail Low)：<ul>
+<li>路径损耗大： 检查双工器、开关、匹配电路的焊接是否良好，或者线缆损耗补偿是否正确。</li>
+<li>电源撑不住： 在大功率发射瞬间，VBAT 电压是否跌落过大（IR Drop），导致 PA 供电不足。</li>
+<li>PA 选型错误： 如果你是 HPUE (Class 2, 26dBm) 的项目，却选了普通 23dBm 的 PA。</li>
+</ul>
+</li>
+<li>高低频差异大：<ul>
+<li>如果在 RB#0 (低频) 功率合格，但在 RB#Max (高频) 功率偏低，通常是因为滤波器或双工器的频响曲线在边缘滚降太快，或者匹配电路只优化了中心频点。</li>
+</ul>
+</li>
+<li>功率过高 (Fail High)：<ul>
+<li>校准（Calibration）没做好，或者开环功率控制参数配置错误。</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、MPR-Maximum-Power-Reduction-最大功率回退"><a href="#二、MPR-Maximum-Power-Reduction-最大功率回退" class="headerlink" title="二、MPR (Maximum Power Reduction, 最大功率回退)"></a>二、MPR (Maximum Power Reduction, 最大功率回退)</h1><h2 id="1-文档索引-1"><a href="#1-文档索引-1" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.2.3 (P336)</li>
+<li>测试条件： Table 6.2.3.4.1-1 (P338)</li>
+<li>测试标准： Table 6.2.3.5-1 (P340)</li>
+</ul>
+<h2 id="2-核心描述-1"><a href="#2-核心描述-1" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>“为了保命，主动认怂”。<br>MPR 是协议赋予手机的一种**“特权”**。<br>当手机发射高阶调制信号（如 16QAM&#x2F;64QAM）或者大带宽（Full RB）时，信号的 PAPR (峰均比) 会变大。</p>
+<ul>
+<li>如果不回退功率：PA (功放) 会为了顶住峰值而进入饱和区，导致削顶，从而导致 ACLR (邻道泄漏) 和 EVM 挂掉。</li>
+<li>MPR 机制： 协议允许你在这些难搞的场景下，把最大发射功率降低一点点（比如降低 1dB 或 2dB），以换取更好的线性度。<br>背诵口诀 (基于 Table 6.2.3-1)：</li>
+<li>QPSK: 只要不是特别宽 (Full RB)，通常 MPR &#x3D; 0 (不回退，必须发 23dBm)。</li>
+<li>16QAM: 稍微有点难搞，允许 MPR &lt;&#x3D; 1dB (发 22dBm 就算合格)。</li>
+<li>64QAM: 很难搞，允许 MPR &lt;&#x3D; 2dB (发 21dBm 就算合格)。</li>
+</ul>
+<h2 id="3-测试目的-1"><a href="#3-测试目的-1" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>平衡术验证： 验证手机是否只在“必要”的时候才降低功率。<ul>
+<li>如果是 QPSK 小带宽，你不能乱降功率，必须保证覆盖。</li>
+<li>如果是 64QAM 大带宽，你要适度降功率，防止干扰邻居。</li>
+</ul>
+</li>
+<li>软件逻辑检查： MPR 通常是由软件里的 NV (Non-Volatile) 参数 或 功率回退表 控制的。测试是为了看这表填没填对。</li>
+</ul>
+<h2 id="4-常见问题-1"><a href="#4-常见问题-1" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><p>问题 A：该退没退 (Fail ACLR)</p>
+<ul>
+<li>现象： 在 16QAM&#x2F;64QAM Full RB 下，功率依然死顶在 23dBm，结果 ACLR 炸了，EVM 炸了。</li>
+<li>原因： 软件里的 MPR 表格没配置，或者 PA 的特征曲线没调好，软件以为 PA 很强能扛住，结果 PA 扛不住。<br>问题 B：退得太多 (Fail Max Power)</li>
+<li>现象： 协议只允许退 1dB (Limit &gt; 22dBm)，结果你退了 3dB (实测 20dBm)。</li>
+<li>原因： 射频链路插损过大，或者软件里的 Power Limit 设得太保守。</li>
+</ul>
+<h2 id="5-其他"><a href="#5-其他" class="headerlink" title="5. 其他"></a>5. 其他</h2><p>MPR 是 “Limit” (限值)，不是 “Target” (目标值)！</p>
+<ul>
+<li>协议说 MPR &lt;&#x3D; 1dB，意思是：“兄弟，这活儿挺累，我允许你偷懒少搬 1 块砖。”</li>
+<li>情况 1 (普通手机): 既然允许偷懒，那我就少搬 1 块，发 22dBm。 -&gt; Pass。</li>
+<li>情况 2 (机皇&#x2F;高端 PA): 我身体好，我 PA 线性度牛逼，即使是 64QAM 我也不回退，我照样发 23dBm，而且 ACLR 还能过。 -&gt; Pass！而且是 Great Pass！<br>所以，MPR 是允许你变弱的底线，而不是强制你变弱。 如果你的板子不回退也能过 ACLR，那是你本事大，不用强行把功率降下去。</li>
+</ul>
+<p>没问题，兄弟！你找对了，Clause 6.2.3 就是 MPR 的老家。<br>之前咱们是在讲 Max Power 的时候顺带提了一嘴，但既然标准里把它单独列了一章，那咱们就必须给它一个“正式编制”。把它放在 Max Power (6.2.2) 和 Min Power (6.3.2) 中间是绝对合理的，因为它是对 Max Power 的修正。<br>而且，细看你发出来的这份文档，里面藏着很多实战中非常有用的细节（特别是那个巨大的 Tolerance 表）。<br>来，这是为你量身定制的 Level 1.5 MPR 笔记，直接插入你的文档！<br>1.5 Maximum Power Reduction (MPR, 最大功率回退)</p>
+<ol>
+<li>文档索引</li>
+</ol>
+<ul>
+<li>章节位置： TS 36.521-1 Clause 6.2.3</li>
+<li>测试目的： 验证 UE 是否根据调制方式（Modulation）和传输带宽（RB Allocation）正确地降低了最大发射功率。<ul>
+<li>核心原因： 为了满足 ACLR（邻道泄漏）要求和应对 Cubic Metric (CM)（立方度量，类似于峰均比的概念）的升高。</li>
+</ul>
+</li>
+<li>适用性： 适用于 Power Class 3 的所有 LTE 终端。</li>
+</ul>
+<ol start="2">
+<li>核心规则：MPR 表 (The Law)<br>这是本节的灵魂。Table 6.2.3.3-1 规定了手机在不同场景下**“最多允许退多少 dB”**。<br>兄弟记忆法（以 20MHz 为例）：</li>
+</ol>
+<ul>
+<li>场景 1：QPSK + Partial RB (≤ 18 RB)<ul>
+<li>MPR &#x3D; 0 dB。</li>
+<li>解读： 最基础的配置，不许回退，必须顶到 23dBm。</li>
+</ul>
+</li>
+<li>场景 2：QPSK + Full RB (&gt; 18 RB)<ul>
+<li>MPR ≤ 1 dB。</li>
+<li>解读： 虽然是 QPSK，但 RB 太多导致峰均比变大，允许你稍微退一点点（发 22dBm 也没事）。</li>
+</ul>
+</li>
+<li>场景 3：16QAM + Partial RB (≤ 18 RB)<ul>
+<li>MPR ≤ 1 dB。</li>
+<li>解读： 调制阶数高了，稍微退一点。</li>
+</ul>
+</li>
+<li>场景 4：16QAM + Full RB (&gt; 18 RB)<ul>
+<li>MPR ≤ 2 dB。</li>
+<li>解读： 最难搞的场景（又复杂又宽），允许你退多点（发 21dBm 就算过）。<br>(注：具体的 RB 阈值随带宽变化，比如 20MHz 是 18 RB，10MHz 是 12 RB，详见 Table 6.2.3.3-1)</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>测试配置 (Configuration)<br>测试时，综测仪会根据 Table 6.2.3.4.1-1 遍历这些“极限拉扯”的场景：</li>
+</ol>
+<ul>
+<li>低&#x2F;中&#x2F;高 频点 都要测。</li>
+<li>Modulation: 轮流切 QPSK 和 16QAM。</li>
+<li>RB Allocation: 轮流切 Partial RB (比如 5&#x2F;6 RB) 和 Full RB (比如 50&#x2F;75&#x2F;100 RB)。</li>
+</ul>
+<ol start="4">
+<li>判定标准：公差带的变化 (Tolerance)<br>你贴出的 Table 6.2.3.5-1 虽然很长，但逻辑非常简单粗暴。兄弟带你读懂它的潜台词：<br>关键在于 “Tol. (dB)” 这一列的变化：</li>
+</ol>
+<ul>
+<li>基准线 (Class 3 Standard):<ul>
+<li>目标：23 dBm。</li>
+<li>公差：±2.7 dB (即 20.3 ~ 25.7 dBm)。</li>
+</ul>
+</li>
+<li>当 QPSK Full RB 时 (允许退 1dB):<ul>
+<li>下限放宽 1dB。</li>
+<li>公差变为：+2.7 &#x2F; -3.7 dB (即 19.3 ~ 25.7 dBm)。</li>
+</ul>
+</li>
+<li>当 16QAM Full RB 时 (允许退 2dB):<ul>
+<li>下限放宽 2dB。</li>
+<li>公差变为：+2.7 &#x2F; -4.7 dB (即 18.3 ~ 25.7 dBm)。<br>实战总结：<br>测试系统会自动根据当前的配置（QPSK 还是 16QAM，RB 是多还是少），自动去查这张表，把 Pass&#x2F;Fail 的下限红线 往下移。</li>
+</ul>
+</li>
+</ul>
+<ol start="5">
+<li>兄弟的避坑指南 (Debug Tip)</li>
+</ol>
+<ul>
+<li>MPR 是“允许值”不是“目标值”：<ul>
+<li>协议说 MPR ≤ 1dB，意思是下限降低了 1dB。</li>
+<li>千万别理解反了： 很多新手以为既然是 MPR 1dB，那我就必须把功率做低 1dB。</li>
+<li>真相： 如果你板子牛逼，16QAM Full RB 依然能发 23dBm 且 ACLR 不挂，那你依然是 Pass 的（因为 23dBm 依然在 +2.7&#x2F;-4.7 的范围内）。只有当你 ACLR 撑不住的时候，才需要利用这个规则去降功率。</li>
+</ul>
+</li>
+<li>频段差异 (Band Specifics):<ul>
+<li>注意表格里有些频段（比如 Band 22, 28, 42 等）的 Tolerance 写法不一样（比如 +3.0&#x2F;-4.0），那是针对特定频段的特殊放宽，测试时要看清楚。<br>兄弟，这段加进去，你的 Level 1 就不仅是完整，而且是“有血有肉”了。这就是从 Spec 里抠出来的真东西。<br>接下来咱们是不是该翻篇去搞 RX (接收机) 了？那个著名的 Reference Sensitivity (灵敏度) 正在等你。</li>
+</ul>
+</li>
+</ul>
+<h1 id="三、UE-Minimum-Output-Power-UE-最小输出功率"><a href="#三、UE-Minimum-Output-Power-UE-最小输出功率" class="headerlink" title="三、UE Minimum Output Power (UE 最小输出功率)"></a>三、UE Minimum Output Power (UE 最小输出功率)</h1><h2 id="1-文档索引-2"><a href="#1-文档索引-2" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.3.2 (P977)</li>
+<li>测试条件： Table 6.3.2.4.1-1 (P978)</li>
+<li>测试标准： Table 6.3.2.5-1 (P979)</li>
+</ul>
+<h2 id="2-核心描述-2"><a href="#2-核心描述-2" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>这是手机发射机的“嗓门下限”。<br>测试时，综测仪会发送 TPC 指令命令手机 “All Down”（不断降低功率），或者直接设定一个极低的目标功率（如 -50 dBm）。</p>
+<ul>
+<li>硬件挑战： 此时 PA 的增益非常小，甚至处于 Bypass 模式。测试的难点在于，当有用信号压得很低时，电路本身的热噪声和底噪 (Noise Floor) 能不能也压得足够低。</li>
+</ul>
+<h2 id="3-测试目的-2"><a href="#3-测试目的-2" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>解决“远近效应”： 当手机离基站非常近（如几米以内）时，必须能够大幅降低发射功率。否则，手机的强信号会像在基站耳边尖叫，造成基站接收机阻塞（Blocking），导致整个小区的吞吐量下降。</li>
+<li>验证动态范围： 考验射频链路的增益控制能力，看能否在极大和极小功率之间灵活切换。</li>
+</ul>
+<h2 id="4-常见问题-2"><a href="#4-常见问题-2" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><ul>
+<li>功率降不下去 (Fail High)：<ul>
+<li>PA 关不严： PA 的偏置电压 (Bias) 或 Enable 信号没有完全切断，导致有漏电流产生射频能量。</li>
+<li>增益台阶 (Gain Step) 问题： 射频收发器 (Transceiver) 内部的衰减器档位不够，或者校准时低功率点的校准数据不准。</li>
+</ul>
+</li>
+<li>信号质量恶化：<ul>
+<li>在最小功率下，有时候虽然功率达标了，但 EVM 可能会变得极差（这也是必须要关注的关联指标），因为此时信号已经快被淹没在底噪里了。</li>
+</ul>
+</li>
+<li>本振泄漏 (LO Leakage)：<ul>
+<li>当信号功率很小时，本振泄漏的功率可能会比信号本身还大，导致总功率读数偏高（看似降不下去，其实测到的是载波泄漏）。</li>
+</ul>
+</li>
+</ul>
+<h1 id="四、-Transmit-OFF-Power-发射关断功率"><a href="#四、-Transmit-OFF-Power-发射关断功率" class="headerlink" title="四、 Transmit OFF Power (发射关断功率)"></a>四、 Transmit OFF Power (发射关断功率)</h1><h2 id="1-文档索引-3"><a href="#1-文档索引-3" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.3.3 (P1007)</li>
+<li>测试条件： </li>
+<li>测试标准： Table 6.3.3.5-1 (P1008)</li>
+</ul>
+<h2 id="2-核心描述-3"><a href="#2-核心描述-3" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>这是手机在“非发射状态”下的射频泄漏电平。<br>你可以把它想象成水龙头：当你关紧龙头后，是否还在滴水？</p>
+<ul>
+<li>定义： 测量在 OFF 周期内的平均功率谱密度。</li>
+<li>红线： 对于大多数常见带宽（如 10MHz&#x2F;20MHz），标准要求必须低于 -50 dBm &#x2F; MHz。</li>
+<li>测试场景： 综测仪会调度手机进行断续发射（通常结合 Time Mask 测试），然后在手机“本该安静”的时间段里进行测量。</li>
+</ul>
+<h2 id="3-测试目的-3"><a href="#3-测试目的-3" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>保护系统底噪： 哪怕手机不发数据（DTX 状态）或者处于 TDD 的接收时隙，如果射频链路还有能量泄漏，就会抬高整个基站小区的噪声基底，导致所有人的网速变慢。</li>
+<li>保护 TDD 接收机 (至关重要)： 在 TDD 模式（如 Band 38&#x2F;39&#x2F;40&#x2F;41）下，发射和接收是分时进行的。如果发射机关不严，在接收时隙（Rx Slot）还有残余功率泄漏，这股能量会直接灌入你自己的 LNA（低噪放），导致灵敏度严重恶化 (Self-Desense)。</li>
+<li>省电： 彻底关断射频能显著降低待机功耗。</li>
+</ul>
+<h2 id="4-常见问题-3"><a href="#4-常见问题-3" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><ul>
+<li>PA 关断逻辑太慢 (Control Logic)：<ul>
+<li>RF 收发器发出的 PA_ENABLE 信号拉低了，但 PA 内部电容放电太慢，导致 PA 迟迟没有彻底关闭。</li>
+</ul>
+</li>
+<li>射频开关隔离度差 (Switch Isolation)：<ul>
+<li>ASM (天线开关) 的隔离度不够。虽然 PA 关了，但收发器（Transceiver）内部的本振（LO）信号或者前端的其他噪声通过开关漏到了天线上。</li>
+</ul>
+</li>
+<li>底噪串扰 (Crosstalk)：<ul>
+<li>电源上的噪声（如 DC-DC 开关噪声）耦合到了射频输出端。</li>
+<li>现象： 即使 PA 彻底断电了，你在频谱仪上还能看到一堆 -45dBm 的“小草”（Spurs），这通常是板级走线干扰。</li>
+</ul>
+</li>
+</ul>
+<h1 id="五、On-Off-Time-Mask-开关时间蒙皮"><a href="#五、On-Off-Time-Mask-开关时间蒙皮" class="headerlink" title="五、On&#x2F;Off Time Mask (开关时间蒙皮)"></a>五、On&#x2F;Off Time Mask (开关时间蒙皮)</h1><h2 id="1-文档索引-4"><a href="#1-文档索引-4" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.3.4 (P1021)</li>
+<li>测试条件： Table 6.3.4.1.4.1-1 (P1022)</li>
+<li>测试标准： Table 6.3.4.1.5-1 (P1024)</li>
+</ul>
+<h2 id="2-核心描述-4"><a href="#2-核心描述-4" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>Time Mask 就是给发射功率随时间变化的曲线画了一个”<strong>禁区框</strong>“。你的功率曲线必须在这个框里跑，撞到墙就算 Fail。<br>关键时间点 (以 General Mask 为例)：</p>
+<ul>
+<li>OFF Power: 必须低于 -50 dBm (这与上一节呼应)。</li>
+<li>ON Power: 必须稳定在目标功率的容限内。</li>
+<li>Ramp Up &#x2F; Ramp Down (过渡区)： 通常只有 20 µs 的时间窗口。<ul>
+<li>在这 20 微秒内，PA 必须完成从“死寂”到“满血”的爆发（或者反之）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-测试目的-4"><a href="#3-测试目的-4" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><p>这是一个**“快慢博弈”**的平衡测试：</p>
+<ul>
+<li>不能太慢：<ul>
+<li>上升太慢： 就像说话结巴，开头的一个字没发出来，导致数据头丢失 (Symbol Loss)，解调失败。</li>
+<li>下降太慢： 就像说完话闭不上嘴，发射能量溢出到了下一个时隙（Slot）。如果是 TDD 系统，这会直接干扰接收时隙，导致灵敏度下降。</li>
+</ul>
+</li>
+<li>不能太快：<ul>
+<li>开关太快： 依据傅里叶变换原理，极速的阶跃信号（Step Function）会产生极宽的频谱溅射 (Spectral Splatter)。就像你用力摔门会产生巨大的噪音，干扰到邻近的频段。</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-常见问题-4"><a href="#4-常见问题-4" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><ul>
+<li>PA 的时序控制 (Timing Mismatch)：<ul>
+<li>现象： Mask 图上，功率包络整体左移或右移了，撞到了边框。</li>
+<li>原因： 射频收发器 (Transceiver) 发出的 I&#x2F;Q 数据 和 PA_ENABLE (GPIO) 信号没有对齐。</li>
+<li>解决： 这通常是软件&#x2F;驱动配置问题（调整 Delay），但作为硬件必须要懂，别盲目换 PA。</li>
+</ul>
+</li>
+<li>电源去耦电容太大 (Capacitor Effect)：<ul>
+<li>现象： 下降沿 (Ramp Down) 拖着一条长长的尾巴，导致关断太慢，撞到了 OFF 区域的墙。</li>
+<li>原因： PA 电源引脚上的大电容存了太多电。当 PA Enable 拉低关闭时，大电容还在慢慢放电，维持着 PA 的工作。</li>
+<li>解决： 检查 PA VCC 上的电容值，是不是为了追求电源纹波小而用了过大的电容（比如 100uF 甚至更大）？</li>
+</ul>
+</li>
+<li>电感储能 (Inductor Flyback)：<ul>
+<li>现象： 关断瞬间有一个反弹的尖峰 (Overshoot)。</li>
+<li>原因： 供电电路中的电感在电流切断瞬间产生反向电动势。</li>
+</ul>
+</li>
+</ul>
+<h1 id="六、Absolute-Power-Control-Tolerance-绝对功率控制容限"><a href="#六、Absolute-Power-Control-Tolerance-绝对功率控制容限" class="headerlink" title="六、Absolute Power Control Tolerance (绝对功率控制容限)"></a>六、Absolute Power Control Tolerance (绝对功率控制容限)</h1><h2 id="1-文档索引-5"><a href="#1-文档索引-5" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.3.5.1 (P1091)</li>
+<li>测试条件：Table 6.3.5.1.4.1-1 (P1092)</li>
+<li>测试标准：Table 6.3.5.1.5-1 &amp; Table 6.3.5.1.5-2 (P1093)</li>
+</ul>
+<h2 id="2-核心描述-5"><a href="#2-核心描述-5" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>这是考察手机开环功率控制 (Open Loop) 的精度。<br>核心公式 (简化版)：<br>$$P_{Tx} &#x3D; P_{Target} + \alpha  \cdot PL(Path Loss)$$</p>
+<ul>
+<li>手机自己计算：<br>基站发过来是 XX dBm，我收到是 YY dBm，中间损耗（Path Loss）是 ZZ dB。所以我应该用 WW dBm 发射回去。</li>
+<li>测试过程：<br>综测仪设置特定的路损（Path Loss），不发送任何闭环修正指令（TPC），看手机实际发出的功率是否在目标值的 ±9 dB (Normal conditions) 或更严格的范围内。</li>
+<li>核心变量：Point 1 vs Point 2 (The Variables)<br>这是综测仪为了验证手机计算能力出的两道“数学题”，通过改变系统广播参数 P_0 (p0-NominalPUSCH) 来实现：<table>
+<thead>
+<tr>
+<th>测试点</th>
+<th>关键参数设置 (P_0)</th>
+<th>物理含义</th>
+<th>预期结果 (以 10M 为例)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Point 1</td>
+<td>-105 dBm</td>
+<td>模拟低功率需求场景</td>
+<td>目标值较低 (-5.6 dBm)</td>
+</tr>
+<tr>
+<td>Point 2</td>
+<td>-93 dBm</td>
+<td>模拟高功率需求场景</td>
+<td>目标值较高 (+6.4 dBm)</td>
+</tr>
+<tr>
+<td>差值</td>
+<td>\Delta &#x3D; 12 \text{ dB}</td>
+<td>基准抬高 12dB</td>
+<td>输出必须跟着抬高 12dB</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h2 id="3-测试目的-5"><a href="#3-测试目的-5" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><p>“第一声问候准不准？”<br>当手机发起接入（PRACH）或从长休眠中醒来发送第一帧数据时，基站还没有给它发送闭环修正指令（TPC）。手机必须完全依靠自己测量到的路损（Pathloss）和广播参数，盲猜出一个发射功率。</p>
+<ul>
+<li>目的： 验证手机算出来的这个初始功率（Initial Output Power）是否落在允许的范围内。如果算错太离谱，要么连不上（发小了），要么干扰全网（发大了）。</li>
+</ul>
+<h2 id="4-常见问题-5"><a href="#4-常见问题-5" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><p>问题一：Rx（接收）校准偏差</p>
+<ul>
+<li>现象： 发射功率整体偏大或偏小。</li>
+<li>原理： 开环功控公式依赖路损：$PL &#x3D; \text{Tx}<em>{\text{Base}} - \text{Rx}</em>{\text{UE}}$。</li>
+<li>排查： 你的手机显示的 RSRP（接收信号强度）准吗？如果手机接收读数偏低了 5dB，它就会错误地把发射功率抬高 5dB。修发射先修接收。</li>
+</ul>
+<p>问题二：Point 1 和 Point 2 差值不对</p>
+<ul>
+<li>现象： Point 1 Pass，但 Point 2 Fail。</li>
+<li>原理： 两个点相差 12dB。如果你的 PA 在 -5dBm (Point 1) 和 +6dBm (Point 2) 之间的增益步进 (Gain Step) 不线性，或者中间的校准点缺失，就会导致其中一个点算错。</li>
+</ul>
+<p>问题三：带宽补偿错误</p>
+<ul>
+<li>现象： 10MHz Pass，但 1.4MHz Fail。</li>
+<li>原理： 手机软件里有一个针对带宽的补偿表。如果射频前端（滤波器）在窄带和宽带下的插损差异很大，而软件补偿没跟上，就会导致特定带宽下的计算偏差。</li>
+</ul>
+
+    </article>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">总览</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81UE-Maximum-Output-Power-UE-%E6%9C%80%E5%A4%A7%E8%BE%93%E5%87%BA%E5%8A%9F%E7%8E%87"><span class="toc-number">2.</span> <span class="toc-text">一、UE Maximum Output Power (UE 最大输出功率)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95"><span class="toc-number">2.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0"><span class="toc-number">2.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84"><span class="toc-number">2.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">2.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81MPR-Maximum-Power-Reduction-%E6%9C%80%E5%A4%A7%E5%8A%9F%E7%8E%87%E5%9B%9E%E9%80%80"><span class="toc-number">3.</span> <span class="toc-text">二、MPR (Maximum Power Reduction, 最大功率回退)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-1"><span class="toc-number">3.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-1"><span class="toc-number">3.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-1"><span class="toc-number">3.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-1"><span class="toc-number">3.4.</span> <span class="toc-text">4. 常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%85%B6%E4%BB%96"><span class="toc-number">3.5.</span> <span class="toc-text">5. 其他</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81UE-Minimum-Output-Power-UE-%E6%9C%80%E5%B0%8F%E8%BE%93%E5%87%BA%E5%8A%9F%E7%8E%87"><span class="toc-number">4.</span> <span class="toc-text">三、UE Minimum Output Power (UE 最小输出功率)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-2"><span class="toc-number">4.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-2"><span class="toc-number">4.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-2"><span class="toc-number">4.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-2"><span class="toc-number">4.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81-Transmit-OFF-Power-%E5%8F%91%E5%B0%84%E5%85%B3%E6%96%AD%E5%8A%9F%E7%8E%87"><span class="toc-number">5.</span> <span class="toc-text">四、 Transmit OFF Power (发射关断功率)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-3"><span class="toc-number">5.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-3"><span class="toc-number">5.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-3"><span class="toc-number">5.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-3"><span class="toc-number">5.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81On-Off-Time-Mask-%E5%BC%80%E5%85%B3%E6%97%B6%E9%97%B4%E8%92%99%E7%9A%AE"><span class="toc-number">6.</span> <span class="toc-text">五、On&#x2F;Off Time Mask (开关时间蒙皮)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-4"><span class="toc-number">6.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-4"><span class="toc-number">6.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-4"><span class="toc-number">6.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-4"><span class="toc-number">6.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81Absolute-Power-Control-Tolerance-%E7%BB%9D%E5%AF%B9%E5%8A%9F%E7%8E%87%E6%8E%A7%E5%88%B6%E5%AE%B9%E9%99%90"><span class="toc-number">7.</span> <span class="toc-text">六、Absolute Power Control Tolerance (绝对功率控制容限)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-5"><span class="toc-number">7.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-5"><span class="toc-number">7.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-5"><span class="toc-number">7.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-5"><span class="toc-number">7.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2026/01/23/LTE 3GPP指标(2) -_ 调制质量 & 频谱形状/">LTE 3GPP指标(2) - 调制质量 & 频谱形状</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2026/01/23/LTE 3GPP指标(0) -_ 测试条件/">LTE 3GPP指标(0) - 测试条件</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大家好！欢迎来到我的小站，希望你能在这里找到你想要的东西~ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"Reset","artist":"向井太一","url":"/music/Reset.mp3","cover":"/imgs/Reset%E9%9F%B3%E4%B9%90%E5%9B%BE%E6%A0%87.png"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll();
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+    });
+  </script>
+</body>
+</html>

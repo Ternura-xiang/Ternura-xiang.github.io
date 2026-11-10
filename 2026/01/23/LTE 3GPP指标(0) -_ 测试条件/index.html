@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ternura_xiang的个人博客—LTE 3GPP指标(0) - 测试条件 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/public.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/iconfont.css" />
+  <link rel="stylesheet" href="/css/APlayer.min.css" />
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `Ternura_xiang的个人博客—LTE 3GPP指标(0) - 测试条件`
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://ternura-xiang.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"C语言函数值转换与位解释","path":"2025/10/23/C语言函数值转换与位解释/"},{"title":"LTE 3GPP指标(1) - 功率 (Power)","path":"2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/"},{"title":"LTE 3GPP指标(0) - 测试条件","path":"2026/01/23/LTE 3GPP指标(0) -_ 测试条件/"},{"title":"LTE 3GPP指标(2) - 调制质量 & 频谱形状","path":"2026/01/23/LTE 3GPP指标(2) -_ 调制质量 & 频谱形状/"},{"title":"LTE 3GPP指标(4) - 阻塞 & 互调","path":"2026/01/23/LTE 3GPP指标(4) -_ 阻塞 & 互调/"},{"title":"LTE 3GPP指标(5) - 杂散发射","path":"2026/01/23/LTE 3GPP指标(5) -_ 杂散发射/"},{"title":"LTE 3GPP指标(3) - 灵敏度 (Sensitivity)","path":"2026/01/23/LTE 3GPP指标(3) -_ 灵敏度 (Sensitivity)/"},{"title":"LTE射频发送链路","path":"2026/01/23/LTE射频发送链路/"},{"title":"MOS管基本门逻辑电路","path":"2025/12/10/MOS管基本门逻辑电路/"},{"title":"回调函数注入","path":"2025/10/18/回调函数注入/"},{"title":"嵌入式C语言空指针错误分析与修复","path":"2025/10/21/嵌入式C语言空指针错误分析与修复/"},{"title":"无源器件及其指标","path":"2026/01/23/无源器件及其指标/"},{"title":"智能车大赛备赛笔记","cover":"https://free.picui.cn/free/2025/10/01/68dcc8b612578.jpg","path":"2025/10/01/智能车大赛备赛笔记/"},{"title":"缩写速查表","path":"2026/01/23/缩写速查表/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="/imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Xiang</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">Run！</span>
+          <span class="main-left--tag">电子</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“人生没有终点，只愿不留遗憾”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Ternura-xiang"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>3</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>12</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>3 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>14 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>406天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.0</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <link rel="stylesheet" href="/css/partial/article.css" />
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">LTE 3GPP指标(0) - 测试条件</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/3GPP/" rel="tag">3GPP</a><a class="tag-link" href="/tags/LTE/" rel="tag">LTE</a>
+          </div>
+          
+          <p class="article-info--date">日期：2026-01-23 00:12:00</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content markdown-body">
+      <p>[toc]<br>注：本系列基于文档：3GPP TS 36.521-1</p>
+<h1 id="一、调制方式-Modulation"><a href="#一、调制方式-Modulation" class="headerlink" title="一、调制方式 (Modulation)"></a>一、调制方式 (Modulation)</h1><p>在 LTE（以及现在的 5G）中，调制方式不仅仅是 QPSK，而是一个**“阶梯”**。<br>LTE 定义了四种主要的调制方式（对于终端发射&#x2F;Uplink 来说，通常最高到 64QAM 或 256QAM）。我们将它们想象成在射频通道里传输“点”（Symbol）。</p>
+<h2 id="1-调试方式分类"><a href="#1-调试方式分类" class="headerlink" title="1. 调试方式分类"></a>1. 调试方式分类</h2><h3 id="QPSK-Quadrature-Phase-Shift-Keying"><a href="#QPSK-Quadrature-Phase-Shift-Keying" class="headerlink" title="QPSK (Quadrature Phase Shift Keying)"></a>QPSK (Quadrature Phase Shift Keying)</h3><ul>
+<li>携带信息： 每个符号传 2 bit 数据。</li>
+<li>硬件视角： 皮实抗造。 星座图上只有 4 个点，点与点之间距离很远。</li>
+<li>适用场景： 信号极差（比如你在电梯里）、小区边缘、或者仅仅是建立连接的信令阶段。</li>
+</ul>
+<h3 id="16QAM-Quadrature-Amplitude-Modulation"><a href="#16QAM-Quadrature-Amplitude-Modulation" class="headerlink" title="16QAM (Quadrature Amplitude Modulation)"></a>16QAM (Quadrature Amplitude Modulation)</h3><ul>
+<li>携带信息： 每个符号传 4 bit 数据（速度翻倍）。</li>
+<li>硬件视角： 中规中矩。 星座图变成了 4 \times 4 &#x3D; 16 个点。点变密了，对噪声开始敏感。</li>
+<li>适用场景： 信号质量中等。</li>
+</ul>
+<h3 id="64QAM"><a href="#64QAM" class="headerlink" title="64QAM"></a>64QAM</h3><ul>
+<li>携带信息： 每个符号传 6 bit 数据（速度是 QPSK 的 3 倍）。</li>
+<li>硬件视角： 很难伺候。 星座图是 8 \times 8 &#x3D; 64 个点。点非常密集！<ul>
+<li>EVM 噩梦： 只要你的 PA 稍微有一点非线性，或者电源有一点纹波，这些点就会“糊”在一起，导致解调失败。</li>
+<li>功率回退： 几乎必须使用 MPR（降低发射功率）来保证线性度。</li>
+</ul>
+</li>
+<li>适用场景： 信号极好，就在基站底下。</li>
+</ul>
+<h3 id="256QAM-LTE-Advanced-5G"><a href="#256QAM-LTE-Advanced-5G" class="headerlink" title="256QAM (LTE-Advanced &#x2F; 5G)"></a>256QAM (LTE-Advanced &#x2F; 5G)</h3><ul>
+<li>携带信息： 每个符号传 8 bit 数据。</li>
+<li>硬件视角： 极其娇贵（炼狱模式）。<ul>
+<li>要求 EVM &lt; 3.5%。这基本上要求你的射频链路必须像镜子一样纯净。通常只有高端机型在极好的环境下才能触发。</li>
+<li>如果是做低端机或物联网模块，可能不支持上行 256QAM。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-调试方式对比"><a href="#2-调试方式对比" class="headerlink" title="2. 调试方式对比"></a>2. 调试方式对比</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>QPSK</th>
+<th>16QAM</th>
+<th>64QAM</th>
+<th>256QAM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据速率</td>
+<td>低</td>
+<td>中</td>
+<td>高</td>
+<td>极高</td>
+</tr>
+<tr>
+<td>抗干扰能力</td>
+<td>最强 (信号烂也能通)</td>
+<td>中</td>
+<td>差</td>
+<td>最差 (稍有噪声就断)</td>
+</tr>
+<tr>
+<td>EVM 要求</td>
+<td>17.5% (宽松)</td>
+<td>12.5%</td>
+<td>8% (严格)</td>
+<td>3.5% (变态)</td>
+</tr>
+<tr>
+<td>PA 线性度要求</td>
+<td>低 (PA 可以推满功率)</td>
+<td>中</td>
+<td>高 (需回退功率)</td>
+<td>极高 (需大幅回退)</td>
+</tr>
+<tr>
+<td>PAPR (峰均比)</td>
+<td>低</td>
+<td>中</td>
+<td>高</td>
+<td>很高</td>
+</tr>
+<tr>
+<td>主要调试故障</td>
+<td>假如 QPSK 都不通，查焊接&#x2F;供电&#x2F;匹配</td>
+<td>-</td>
+<td>假如 64QAM EVM 差，查PA 线性度&#x2F;电源纹波</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h2 id="3-调试方式的切换"><a href="#3-调试方式的切换" class="headerlink" title="3. 调试方式的切换"></a>3. 调试方式的切换</h2><h3 id="AMC-自适应调制编码"><a href="#AMC-自适应调制编码" class="headerlink" title="AMC (自适应调制编码)"></a>AMC (自适应调制编码)</h3><p>在真实世界里（比如你拿着手机去室外测），你不能直接控制调制方式。这是由基站（eNodeB）控制的，机制叫 AMC (Adaptive Modulation and Coding)。</p>
+<ul>
+<li>流程：<ul>
+<li>手机测量下行信号质量（SNR&#x2F;SINR）。</li>
+<li>手机向基站上报一个参数叫 CQI (Channel Quality Indicator，信道质量指示)，范围 0-15。<ul>
+<li>CQI 报告低（比如 3）：基站这就给你发 QPSK。</li>
+<li>CQI 报告高（比如 15）：基站这就给你发 64QAM&#x2F;256QAM。</li>
+</ul>
+</li>
+<li>上行（你发给基站）： 基站测量你发过去的信号，如果觉得你信号好，基站会通过 DCI (Downlink Control Information) 指令告诉你：“下一帧开始，你用 64QAM 发给我。”</li>
+</ul>
+</li>
+</ul>
+<h3 id="强制模式-实验室环境下"><a href="#强制模式-实验室环境下" class="headerlink" title="强制模式(实验室环境下)"></a>强制模式(实验室环境下)</h3><p>在实验室中，用 CMW500 或 MT8820C 综测仪时，你是上帝。你可以强制手机使用某种调制，以便排查硬件问题。</p>
+<ul>
+<li>操作方法 (以 CMW500 为例)：<ul>
+<li>进入 LTE Signaling -&gt; Connection Configuration -&gt; User Equipment (UE) Settings。</li>
+<li>找到 UL Modulation (上行调制)。</li>
+<li>下拉菜单选择：QPSK &#x2F; 16-QAM &#x2F; 64-QAM。</li>
+<li>注意： 当你手动强制为 64QAM 时，如果你的板子射频性能太差（EVM 炸了），综测仪上的 Throughput (吞吐量) 就会掉成 0，或者连接直接断开（Drop）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>在做硬件测试时，必须分清 UL (上行，手机发) 和 DL (下行，手机收)。</p>
+<ul>
+<li>Tx 测试（测 PA、测发射功率）： 你关注的是 UL Modulation。<ul>
+<li>大部分中低端手机，UL 最高只支持到 16QAM 或 64QAM。</li>
+<li>如果你在综测仪上把 UL 设成 256QAM，手机可能根本不支持，直接报错。</li>
+</ul>
+</li>
+<li>Rx 测试（测灵敏度）： 你关注的是 DL Modulation。<ul>
+<li>手机的接收能力通常比发射强，DL 很容易支持到 256QAM。</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、资源块-RB-Allocation"><a href="#二、资源块-RB-Allocation" class="headerlink" title="二、资源块 (RB Allocation)"></a>二、资源块 (RB Allocation)</h1><p>这是 LTE 区别于 2G&#x2F;3G 的核心。LTE 的带宽是可变的（1.4MHz ~ 20MHz），RB 就是这些带宽里的“乐高积木”。</p>
+<h2 id="1-基本信息"><a href="#1-基本信息" class="headerlink" title="1. 基本信息"></a>1. 基本信息</h2><ul>
+<li>基本单位： 1 个 RB &#x3D; 频域上 12 个子载波 (180kHz) \times 时域上 0.5ms。</li>
+<li>总量</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">信道带宽 (Channel Bandwidth)</th>
+<th align="center">RB 总数量 (Total RB Config)</th>
+<th align="center">实际占用带宽 (Transmission BW)</th>
+<th align="center">只有硬件才懂的“保护带” (Guard Band)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1.4 MHz</td>
+<td align="center">6 RB</td>
+<td align="center">$6 \times 0.18 &#x3D; 1.08 \text{ MHz}$</td>
+<td align="center">左右各留了一点空隙</td>
+</tr>
+<tr>
+<td align="center">3 MHz</td>
+<td align="center">15 RB</td>
+<td align="center">$15 \times 0.18 &#x3D; 2.7 \text{ MHz}$</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="center">5 MHz</td>
+<td align="center">25 RB</td>
+<td align="center">$25 \times 0.18 &#x3D; 4.5 \text{ MHz}$</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="center">10 MHz</td>
+<td align="center">50 RB</td>
+<td align="center">$50 \times 0.18 &#x3D; 9.0 \text{ MHz}$</td>
+<td align="center">常见项目规格</td>
+</tr>
+<tr>
+<td align="center">15 MHz</td>
+<td align="center">75 RB</td>
+<td align="center">$75 \times 0.18 &#x3D; 13.5 \text{ MHz}$</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="center">20 MHz</td>
+<td align="center">100 RB</td>
+<td align="center">$100 \times 0.18 &#x3D; 18.0 \text{ MHz}$</td>
+<td align="center">最高规格</td>
+</tr>
+</tbody></table>
+<ul>
+<li>以20MHz带宽为例：剩下那 2 MHz 去哪了？<ul>
+<li>答案： 变成了左右两边的 Guard Band (保护带)。这是为了防止你的信号溢出干扰到隔壁运营商。</li>
+<li>硬件启示： 所以当你测 Full RB 时，其实你的信号并没有把 20MHz 撑得满满的，左右大概各留了 1MHz 的空隙。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-常用配置"><a href="#2-常用配置" class="headerlink" title="2. 常用配置"></a>2. 常用配置</h2><h3 id="Full-RB-满资源块"><a href="#Full-RB-满资源块" class="headerlink" title="Full RB (满资源块)"></a>Full RB (满资源块)</h3><ul>
+<li>配置： 例如 20MHz 带宽下，分配 100 个 RB (RB #0 到 RB #99)。</li>
+<li>像什么： 像一个大探照灯，铺满整个路面。</li>
+<li>考验硬件什么？<ul>
+<li>ACLR (邻道泄漏)： 因为你的能量铺满了整个信道，边缘的能量最容易泄漏到隔壁信道去。测 ACLR 必须看 Full RB。</li>
+<li>带内平坦度 (In-band Flatness)： 你的滤波器（Filter）和双工器（Duplexer）不可能在整个 20MHz 范围内都是平的。Full RB 能一眼看出哪里有坑。</li>
+<li>功耗： 处理的数据量最大，基带和射频的功耗通常最高。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-RB-单资源块-Low-High"><a href="#1-RB-单资源块-Low-High" class="headerlink" title="1 RB (单资源块) - Low &#x2F; High"></a>1 RB (单资源块) - Low &#x2F; High</h3><ul>
+<li>配置：<ul>
+<li>Low Range: RB #0 (最低频的那个积木)</li>
+<li>High Range: RB #99 (最高频的那个积木)</li>
+</ul>
+</li>
+<li>像什么： 像一束极细的激光。</li>
+<li>考验硬件什么？<ul>
+<li>PSD (功率谱密度)： 所有的发射能量都集中在这窄窄的 180kHz 里。这时的局部能量密度极大！</li>
+<li>带外杂散 (Spurious Emission)：<ul>
+<li>如果你配置 1 RB @ Low Channel，这就离下边带的频谱非常近，最容易干扰下边带的业务。</li>
+<li>如果你配置 1 RB @ High Channel，最容易干扰上边带。</li>
+</ul>
+</li>
+<li>LO Leakage (本振泄漏)： 当分配的 RB 位于中心频点附近时，容易和本振泄漏混在一起，导致 EVM 变差。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Partial-RB-部分资源块"><a href="#Partial-RB-部分资源块" class="headerlink" title="Partial RB (部分资源块)"></a>Partial RB (部分资源块)</h3><ul>
+<li>这也是 3GPP 36.521 标准测试里的一项，通常是为了配合 MPR (功率回退) 的测试。</li>
+</ul>
+<h1 id="三、配置示例"><a href="#三、配置示例" class="headerlink" title="三、配置示例"></a>三、配置示例</h1><table>
+<thead>
+<tr>
+<th>组合场景</th>
+<th>测试目的</th>
+<th>你的预期 (Pass Criteria)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QPSK + 1 RB (Low&#x2F;High)</td>
+<td>测杂散、测极限位置的干扰</td>
+<td>此时功率最难控制，容易在带外产生毛刺</td>
+</tr>
+<tr>
+<td>QPSK + Full RB</td>
+<td>测最大平均功率、测带内平坦度</td>
+<td>功率应该稳稳达到 23dBm，ACLR 压力最大</td>
+</tr>
+<tr>
+<td>16QAM&#x2F;64QAM + Full RB</td>
+<td>测 EVM、测 MPR</td>
+<td>注意： 此时功率达不到 23dBm 是正常的！因为 MPR 机制启动了，可能会回退 1-2dB。如果你非要把它调到 23dBm，EVM 就炸了。</td>
+</tr>
+</tbody></table>
+<p>具体示例：<br> “Band 3, 10MHz, 1 RB @ High Channel”</p>
+
+    </article>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%B0%83%E5%88%B6%E6%96%B9%E5%BC%8F-Modulation"><span class="toc-number">1.</span> <span class="toc-text">一、调制方式 (Modulation)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%B0%83%E8%AF%95%E6%96%B9%E5%BC%8F%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">1. 调试方式分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#QPSK-Quadrature-Phase-Shift-Keying"><span class="toc-number">1.1.1.</span> <span class="toc-text">QPSK (Quadrature Phase Shift Keying)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#16QAM-Quadrature-Amplitude-Modulation"><span class="toc-number">1.1.2.</span> <span class="toc-text">16QAM (Quadrature Amplitude Modulation)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#64QAM"><span class="toc-number">1.1.3.</span> <span class="toc-text">64QAM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#256QAM-LTE-Advanced-5G"><span class="toc-number">1.1.4.</span> <span class="toc-text">256QAM (LTE-Advanced &#x2F; 5G)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%B0%83%E8%AF%95%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="toc-number">1.2.</span> <span class="toc-text">2. 调试方式对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%B0%83%E8%AF%95%E6%96%B9%E5%BC%8F%E7%9A%84%E5%88%87%E6%8D%A2"><span class="toc-number">1.3.</span> <span class="toc-text">3. 调试方式的切换</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AMC-%E8%87%AA%E9%80%82%E5%BA%94%E8%B0%83%E5%88%B6%E7%BC%96%E7%A0%81"><span class="toc-number">1.3.1.</span> <span class="toc-text">AMC (自适应调制编码)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E6%A8%A1%E5%BC%8F-%E5%AE%9E%E9%AA%8C%E5%AE%A4%E7%8E%AF%E5%A2%83%E4%B8%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">强制模式(实验室环境下)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">1.3.3.</span> <span class="toc-text">注意</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%B5%84%E6%BA%90%E5%9D%97-RB-Allocation"><span class="toc-number">2.</span> <span class="toc-text">二、资源块 (RB Allocation)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="toc-number">2.1.</span> <span class="toc-text">1. 基本信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">2. 常用配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Full-RB-%E6%BB%A1%E8%B5%84%E6%BA%90%E5%9D%97"><span class="toc-number">2.2.1.</span> <span class="toc-text">Full RB (满资源块)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-RB-%E5%8D%95%E8%B5%84%E6%BA%90%E5%9D%97-Low-High"><span class="toc-number">2.2.2.</span> <span class="toc-text">1 RB (单资源块) - Low &#x2F; High</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Partial-RB-%E9%83%A8%E5%88%86%E8%B5%84%E6%BA%90%E5%9D%97"><span class="toc-number">2.2.3.</span> <span class="toc-text">Partial RB (部分资源块)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%85%8D%E7%BD%AE%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">三、配置示例</span></a></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/">LTE 3GPP指标(1) - 功率 (Power)</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2026/01/23/无源器件及其指标/">无源器件及其指标</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大家好！欢迎来到我的小站，希望你能在这里找到你想要的东西~ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"Reset","artist":"向井太一","url":"/music/Reset.mp3","cover":"/imgs/Reset%E9%9F%B3%E4%B9%90%E5%9B%BE%E6%A0%87.png"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll();
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+    });
+  </script>
+</body>
+</html>

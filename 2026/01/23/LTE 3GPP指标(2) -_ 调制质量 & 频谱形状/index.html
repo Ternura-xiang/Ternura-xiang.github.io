@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ternura_xiang的个人博客—LTE 3GPP指标(2) - 调制质量 &amp; 频谱形状 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/public.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/iconfont.css" />
+  <link rel="stylesheet" href="/css/APlayer.min.css" />
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `Ternura_xiang的个人博客—LTE 3GPP指标(2) - 调制质量 & 频谱形状`
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://ternura-xiang.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"C语言函数值转换与位解释","path":"2025/10/23/C语言函数值转换与位解释/"},{"title":"LTE 3GPP指标(1) - 功率 (Power)","path":"2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/"},{"title":"LTE 3GPP指标(0) - 测试条件","path":"2026/01/23/LTE 3GPP指标(0) -_ 测试条件/"},{"title":"LTE 3GPP指标(2) - 调制质量 & 频谱形状","path":"2026/01/23/LTE 3GPP指标(2) -_ 调制质量 & 频谱形状/"},{"title":"LTE 3GPP指标(4) - 阻塞 & 互调","path":"2026/01/23/LTE 3GPP指标(4) -_ 阻塞 & 互调/"},{"title":"LTE 3GPP指标(5) - 杂散发射","path":"2026/01/23/LTE 3GPP指标(5) -_ 杂散发射/"},{"title":"LTE 3GPP指标(3) - 灵敏度 (Sensitivity)","path":"2026/01/23/LTE 3GPP指标(3) -_ 灵敏度 (Sensitivity)/"},{"title":"LTE射频发送链路","path":"2026/01/23/LTE射频发送链路/"},{"title":"MOS管基本门逻辑电路","path":"2025/12/10/MOS管基本门逻辑电路/"},{"title":"回调函数注入","path":"2025/10/18/回调函数注入/"},{"title":"嵌入式C语言空指针错误分析与修复","path":"2025/10/21/嵌入式C语言空指针错误分析与修复/"},{"title":"无源器件及其指标","path":"2026/01/23/无源器件及其指标/"},{"title":"智能车大赛备赛笔记","cover":"https://free.picui.cn/free/2025/10/01/68dcc8b612578.jpg","path":"2025/10/01/智能车大赛备赛笔记/"},{"title":"缩写速查表","path":"2026/01/23/缩写速查表/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="/imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Xiang</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">Run！</span>
+          <span class="main-left--tag">电子</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“人生没有终点，只愿不留遗憾”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Ternura-xiang"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>3</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>12</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>3 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>14 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>406天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.0</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <link rel="stylesheet" href="/css/partial/article.css" />
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">LTE 3GPP指标(2) - 调制质量 & 频谱形状</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/3GPP/" rel="tag">3GPP</a><a class="tag-link" href="/tags/LTE/" rel="tag">LTE</a>
+          </div>
+          
+          <p class="article-info--date">日期：2026-01-23 00:12:02</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content markdown-body">
+      <p>[toc]</p>
+<h1 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h1><p>Level 2: 进阶级 - 不仅要有，还得要“准”<br>关键词： 调制质量 (Modulation Quality) &amp; 频谱形状<br>涉及章节： 36.101 Clause 6.5 &amp; 6.6<br>这一层开始考察射频链路的线性度。这是射频工程师日常调试最多的地方。</p>
+<table>
+<thead>
+<tr>
+<th>指标名称</th>
+<th>中文名</th>
+<th>难度</th>
+<th>一句话解释</th>
+<th>硬件看什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Frequency Error</td>
+<td>频率误差</td>
+<td>⭐</td>
+<td>你的 1800MHz 偏了多少？</td>
+<td>检查晶振 (XO&#x2F;TCXO)，它偏了全盘皆输。</td>
+</tr>
+<tr>
+<td>EVM</td>
+<td>误差矢量幅度</td>
+<td>⭐⭐</td>
+<td>64QAM 的星座图是不是糊了？</td>
+<td>核心指标！ 检查 PA 线性度、I&#x2F;Q 走线平衡、本振相位噪声。</td>
+</tr>
+<tr>
+<td>In-band Emission</td>
+<td>带内杂散</td>
+<td>⭐⭐</td>
+<td>你的信号在自己分配的带宽内是否平坦？</td>
+<td>检查基带滤波和数字预失真。</td>
+</tr>
+<tr>
+<td>ACLR</td>
+<td>邻道泄漏比</td>
+<td>⭐⭐⭐</td>
+<td>你的信号有没有“溢出”到隔壁频道？</td>
+<td>核心指标！ 决定了你能不能过认证。通常是 PA 饱和了，要调匹配或电源。</td>
+</tr>
+</tbody></table>
+<ul>
+<li>通关标志： QPSK 和 16QAM 下，EVM &lt; 5%，ACLR &gt; 36dBc。</li>
+</ul>
+<h1 id="一、Frequency-Error-频率误差"><a href="#一、Frequency-Error-频率误差" class="headerlink" title="一、Frequency Error (频率误差)"></a>一、Frequency Error (频率误差)</h1><h2 id="1-文档索引"><a href="#1-文档索引" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.5.1 (P1365)</li>
+<li>测试条件： Table 6.5.1.4.1-1 (P1366)</li>
+<li>测试标准： Table 6.5.1.5 (P1367)</li>
+</ul>
+<h2 id="2-核心描述"><a href="#2-核心描述" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>如果说功率决定了信号能“扔多远”，频率误差决定了信号“瞄得准不准”。<br>在 LTE (OFDM) 系统中，子载波之间的间隔非常窄（只有 15 kHz）。</p>
+<ul>
+<li>机制： 手机并不是自己产生一个绝对频率，而是通过 AFC (自动频率控制) 锁定基站的下行频率。手机先“听”基站的音准，然后调节自己的晶振 (TCXO) 去对齐，最后再发射信号。</li>
+<li>红线： 对于大多数频段，误差不能超过 ±0.1 ppm (百万分之一)。<ul>
+<li>实例： 在 Band 3 (1750 MHz) 下，允许的最大偏差仅为 ±175 Hz。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-测试目的"><a href="#3-测试目的" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>防止干扰 (ICI)： LTE 的正交性（Orthogonality）依赖于精准的频率对齐。如果手机跑调了，它的子载波就会“撞”到隔壁用户的子载波上，造成载波间干扰 (Inter-Carrier Interference)，直接导致网络解调失败。</li>
+<li>验证时钟硬件： 确认板子上的晶振 (TCXO) 质量是否过关，以及电源对时钟的干扰情况。</li>
+<li>验证 AFC 算法： 确认手机的基带算法能否在接收到基站信号后，迅速、稳定地锁定频率。</li>
+</ul>
+<h2 id="4-常见问题"><a href="#4-常见问题" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><ul>
+<li>热漂移 (Thermal Drift)：<ul>
+<li>现象： 刚开机测试 Pass，但跑几分钟大功率（手机发热）后，频偏突然 Fail。</li>
+<li>原因： 晶振 (TCXO) 离 PA 或 CPU 等发热源太近，且 PCB 隔热设计不好。虽然是“温补”晶振，但剧烈的温度梯度会导致补偿失效。</li>
+</ul>
+</li>
+<li>电源噪声干扰 (Phase Noise&#x2F;Jitter)：<ul>
+<li>现象： 频偏读数不稳定，在那儿疯狂跳动。</li>
+<li>原因： 给晶振供电的 LDO 纹波太大，或者晶振底下的地平面有干扰回流。</li>
+</ul>
+</li>
+<li>接收机失锁 (Rx Issue)：<ul>
+<li>现象： 频偏极大，甚至直接飘走。</li>
+<li>原因： 这是一个接收导致发射错误的经典案例。如果手机 Rx 灵敏度差，听不清基站的信号，AFC 就无法锁定，发射频率自然就是乱的。</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、EVM-Error-Vector-Magnitude-误差矢量幅度"><a href="#二、EVM-Error-Vector-Magnitude-误差矢量幅度" class="headerlink" title="二、EVM (Error Vector Magnitude, 误差矢量幅度)"></a>二、EVM (Error Vector Magnitude, 误差矢量幅度)</h1><h2 id="1-文档索引-1"><a href="#1-文档索引-1" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.5.2 (P1400)</li>
+<li>测试条件：Table 6.5.2.1.4.1-1 (P1402)<ul>
+<li>需要测试所有支持的调制方式 (QPSK, 16QAM, 64QAM, 256QAM)。</li>
+<li>需要测试 Low&#x2F;Mid&#x2F;High 频点。</li>
+<li>需要测试不同的 RB 分配（通常关注 Full RB 和 Edge RB）。</li>
+</ul>
+</li>
+<li>测试标准： Table 6.5.2.1.5 (P1405)：<ul>
+<li>QPSK: &lt; 17.5% (要求低)</li>
+<li>16QAM: &lt; 12.5%</li>
+<li>64QAM: &lt; 8% (要求高)</li>
+<li>256QAM: &lt; 3.5% (炼狱模式)</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-核心描述-1"><a href="#2-核心描述-1" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>EVM 衡量的是**“理想”与“现实”的差距**。<br>想象你在玩飞镖 (Darts)：</p>
+<ul>
+<li>理想点 (Ideal Symbol): 靶心。协议规定如果你发“1101”，信号就应该精准地落在星座图的某一个点上。</li>
+<li>测量点 (Measured Symbol): 你的飞镖实际插在靶子上的位置。</li>
+<li>误差矢量 (Error Vector): 从“理想点”连一条线到“测量点”，这条线的长度就是 EVM。<br>EVM 是所有符号误差的均方根 (RMS) 值。通常用百分比 (%) 表示。</li>
+<li>EVM &#x3D; 0%: 完美，飞镖次次正中红心。</li>
+<li>EVM 大: 飞镖满靶子乱飞。如果飞得太偏，接收端就会把“点A”误判成旁边的“点B”，导致误码 (Bit Error)。</li>
+</ul>
+<h2 id="3-测试目的-1"><a href="#3-测试目的-1" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>保证数据吞吐量 (Throughput): 高阶调制 (如 64QAM) 的星座点非常密集。如果 EVM 不好，点与点之间就会糊在一起，导致解调失败，手机只能回退到低速的 QPSK。</li>
+<li>综合体检： EVM 不是一个单一指标，它是一个综合指标。它能像 X 光一样，反映出射频链路中任何一个环节的“脏东西”（噪声、非线性、干扰）。</li>
+</ul>
+<h2 id="4-常见问题-1"><a href="#4-常见问题-1" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><p>EVM 挂了，不要慌。看星座图 (Constellation Diagram) 是解决问题的关键。不同的“死法”对应不同的硬件问题：<br>带图星座图问题描述：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/650829523">星座图，也可以是射频人员debug的好帮手</a><br>情况 A：星座图被“压扁”了 (Compression&#x2F;Saturation)</p>
+<ul>
+<li>现象： 星座图外圈的四个角（幅度最大的点）向内塌陷，变圆了。</li>
+<li>硬件原因： PA 饱和 (PA Saturation)。<ul>
+<li>PA 推不动了，进入了非线性区，发生了削顶 (Clipping)。</li>
+<li>对策： 检查 PA 供电电压 (VCC) 是否被拉低？检查匹配电路是否最佳？检查输入功率是否过大？<br>情况 B：星座图的点像“逗号”或“圆弧” (Phase Noise)</li>
+</ul>
+</li>
+<li>现象： 星座点没有散开，而是绕着圆心发生了旋转，像拖着尾巴。</li>
+<li>硬件原因： 相位噪声 (Phase Noise)。<ul>
+<li>晶振或 PLL 不干净，或者电源纹波干扰了本振 (LO)。</li>
+<li>对策： 检查 PMIC 给 Transceiver 供电的 LDO 是否有纹波？检查 DC-DC 开关频率是否串扰？<br>情况 C：星座图中心有个点 (LO Leakage)</li>
+</ul>
+</li>
+<li>现象： 在星座图的最中心（原点）有一个不该出现的亮点。</li>
+<li>硬件原因： 本振泄漏 (I&#x2F;Q Offset)。<ul>
+<li>I 路和 Q 路的直流分量没校准干净。</li>
+<li>对策： 重新做 Tx DC Offset 校准。<br>情况 D：星座图整体偏了或扁了 (I&#x2F;Q Imbalance)</li>
+</ul>
+</li>
+<li>现象： 正方形的星座图变成了长方形，或者菱形。</li>
+<li>硬件原因： I&#x2F;Q 不平衡。<ul>
+<li>Transceiver 到 CPU 之间的 I&#x2F;Q 差分走线长度不一致，或者阻抗不匹配。</li>
+</ul>
+</li>
+</ul>
+<h1 id="三、In-band-Emissions-带内杂散-频谱发射模板"><a href="#三、In-band-Emissions-带内杂散-频谱发射模板" class="headerlink" title="三、In-band Emissions (带内杂散 &#x2F; 频谱发射模板)"></a>三、In-band Emissions (带内杂散 &#x2F; 频谱发射模板)</h1><h2 id="1-文档索引-2"><a href="#1-文档索引-2" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.5.2.3 (P1468)</li>
+<li>测试条件：Table 6.5.2.3.4.1-1&#x2F;2 (P1471)<ul>
+<li>关键点： 必须在 非全资源块 (Partial RB) 配置下测试。</li>
+<li>例子： 20MHz 带宽 (100 RB)，你只发前 10 个 RB。剩下的 90 个 RB 应该是“安静”的。这个测试就是看剩下的那 90 个 RB 里有没有垃圾。</li>
+</ul>
+</li>
+<li>测试标准：Table 6.5.2.3.5-1&#x2F;2 (P1473)<ul>
+<li>表格比较复杂，是一个阶梯状的 Limit Mask (限制模板)。距离发射 RB 越远，要求越严格（允许的功率越低）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-核心描述-2"><a href="#2-核心描述-2" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>“各回各家，各找各妈”。<br>在 LTE 一个信道带宽内（比如 20MHz），不仅只有你一个用户。</p>
+<ul>
+<li>如果你只被分配了 RB#0 ~ RB#11 (左边)，那么 RB#12 ~ RB#99 (右边) 可能是分配给别人的。</li>
+<li>In-band Emissions 就是测量：你在你分配的 RB 上发射时，有没有把垃圾能量溅射到同一个信道内、未分配给你的那些 RB 上？<br>它包含两部分“垃圾”：</li>
+<li>General Emissions: 由于 PA 非线性产生的宽带底噪抬升。</li>
+<li>I&#x2F;Q Image (镜像频率): 这是重点！ 由于 I&#x2F;Q 不平衡，如果你在频带左边发射，会在频带右边对称的位置产生一个“鬼影”。</li>
+</ul>
+<h2 id="3-测试目的-2"><a href="#3-测试目的-2" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>保护同小区的其他用户：<ul>
+<li>ACLR 是怕干扰到隔壁小区（邻道）。</li>
+<li>In-band Emissions 是怕干扰到自己小区里的兄弟（同一个 20MHz 里的其他 RB）。</li>
+</ul>
+</li>
+<li>捕捉 I&#x2F;Q 镜像： 这是 EVM 测不出来的。EVM 测的是有信号的地方，IBE 测的是没信号的地方。</li>
+</ul>
+<h2 id="4-常见问题-2"><a href="#4-常见问题-2" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><p>这个指标 Fail 了，通常非常有特征，硬件原因也是“二选一”：<br>场景 A：整个底噪都高了 (Floor Failure)</p>
+<ul>
+<li>现象： 未分配的 RB 区域，噪声整体抬升，超过了 Mask。</li>
+<li>原因： PA 线性度差 或 本振相位噪声大。</li>
+<li>逻辑： 和 ACLR 变差的原因类似，非线性导致频谱再生。<br>场景 B：也就是最经典的“镜像干扰” (Image Failure)</li>
+<li>现象： 你在 RB#0 发射，却在 RB#Max 附近看到了一个尖峰。</li>
+<li>原因： I&#x2F;Q Imbalance (I&#x2F;Q 不平衡)。<ul>
+<li>物理原理： 如果 I 路和 Q 路的幅度不一致（比如差了 0.5dB）或者相位不是严格的 90度（比如 88度），数学公式告诉我们：e^{j\omega t} 会混入 e^{-j\omega t} 的分量。</li>
+<li>通俗解释： 正频率（有用信号）泄露到了负频率（镜像位置）。</li>
+</ul>
+</li>
+<li>对策： 检查 Transceiver 出来的 I&#x2F;Q 差分线，是不是长度不匹配？或者巴伦 (Balun) 也就是匹配电路里的电容电感焊歪了？</li>
+</ul>
+<h1 id="Carrier-Leakage-Origin-Offset-载波泄漏-原点偏移"><a href="#Carrier-Leakage-Origin-Offset-载波泄漏-原点偏移" class="headerlink" title="Carrier Leakage &#x2F; Origin Offset (载波泄漏 &#x2F; 原点偏移)"></a>Carrier Leakage &#x2F; Origin Offset (载波泄漏 &#x2F; 原点偏移)</h1><h2 id="1-文档索引-3"><a href="#1-文档索引-3" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.5.2.2 (P1449)</li>
+<li>测试条件： Table 6.5.2.2.4.1-1 (P1450)</li>
+<li>判定标准： Table 6.5.2.2.5-1&#x2F;2 (P1451)</li>
+</ul>
+<h2 id="2-核心描述-3"><a href="#2-核心描述-3" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>“幽灵直流 (Ghost DC)”。<br>理想情况下，当你的 Modem 发送“全 0”数据（不发射）时，射频口应该没有任何能量。<br>但实际上，即使你什么都不发，在中心频率 (LO Frequency) 处依然有一根顽固的竖线。</p>
+<ul>
+<li>公式描述：<br>$$ RF_{out}(t) &#x3D; I(t) \cdot cos(\omega t) - Q(t) \cdot sin(\omega t)$$<br>其中 $cos(\omega t)$ 和 $sin(\omega t)$ 即为载波部分，当 $I(t)$ 或 $Q(t)$ 出现直流偏置就会出现载波泄漏。</li>
+<li>星座图表现：<ul>
+<li>理想的星座图原点 (0,0) 是没有能量的。</li>
+<li>有载波泄漏时，整个星座图的中心偏离了坐标轴原点。或者说，有一个恒定的直流矢量 (DC Vector) 叠加在了所有信号上。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-测试目的-3"><a href="#3-测试目的-3" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>EVM 的隐形杀手： 如果原点偏移太大，等于给每个符号都加了一个固定的误差矢量。如果不修好它，你的 EVM 永远不可能做到 &lt; 1% (即使 PA 线性度再好)。</li>
+<li>资源浪费： 这部分能量不携带任何信息，纯粹是浪费电，而且会干扰接收端的解调同步（尤其是 Zero-IF 零中频接收机）。</li>
+</ul>
+<h2 id="4-常见问题-3"><a href="#4-常见问题-3" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><p>这是最容易修，也最容易被遗忘的指标。<br>原因 A：I&#x2F;Q 直流偏置没校准 (DC Offset)</p>
+<ul>
+<li>原理： Transceiver 输出的 I 路和 Q 路差分信号，其共模电压 (Common Mode Voltage) 不完全一致。<ul>
+<li>比如：I+ &#x3D; 1.01V, I- &#x3D; 0.99V (差分 0.02V)。这就相当于有一个恒定的直流电平输入到了混频器。</li>
+<li>根据混频原理：$直流(0 \text{ Hz}) \times 本振 (f_{LO}) &#x3D; f_{LO} (载波本身)$ 。</li>
+</ul>
+</li>
+<li>对策： 重新运行软件的 Tx DC Calibration。通常是校准参数丢了，或者温度变化太大导致原校准失效。<br>原因 B：本振隔离度差 (LO Isolation)</li>
+<li>原理： 射频收发器内部的 VCO&#x2F;PLL 信号，没有经过混频器，直接通过基板走线或者芯片内部的寄生电容“<strong>逃逸</strong>”到了 PA 输入端。</li>
+<li>对策：<ul>
+<li>检查 Layout：LO 相关的走线是否离 PA 输入太近？</li>
+<li>检查屏蔽罩：是否因为屏蔽罩没扣好，导致空间辐射耦合？<br>原因 C：PA 的反向泄漏</li>
+</ul>
+</li>
+<li>原理： 极少数情况下，PA 的输出信号反射回来干扰了混频器的工作点。</li>
+</ul>
+<h2 id="5-怎么看综测仪读数？-Intern-Tip"><a href="#5-怎么看综测仪读数？-Intern-Tip" class="headerlink" title="5. 怎么看综测仪读数？(Intern Tip)"></a>5. 怎么看综测仪读数？(Intern Tip)</h2><ul>
+<li>单位：dBc (分贝载波，即相对于载波的比值)</li>
+<li>读数是 -20 dBc：说明泄漏很大，EVM 肯定挂了，快去检查校准。</li>
+<li>读数是 -50 dBc：说明泄漏很小，做得很好，对 EVM 几乎无影响。</li>
+</ul>
+<h1 id="五、ACLR-Adjacent-Channel-Leakage-Ratio-邻道泄漏比"><a href="#五、ACLR-Adjacent-Channel-Leakage-Ratio-邻道泄漏比" class="headerlink" title="五、ACLR (Adjacent Channel Leakage Ratio, 邻道泄漏比)"></a>五、ACLR (Adjacent Channel Leakage Ratio, 邻道泄漏比)</h1><h2 id="1-文档索引-4"><a href="#1-文档索引-4" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.6.2.3 (P1843)</li>
+<li>测试条件：Table 6.6.2.3.4.1-1 (P1845)<ul>
+<li>配置： 通常在 Full RB (满资源块) 下最差，也最常测。</li>
+<li>邻居类型： 3GPP 要求同时测量两类邻居：<ul>
+<li>E-UTRA ACLR: 假设隔壁也是个 LTE 信号。</li>
+<li>UTRA ACLR: 假设隔壁是个 WCDMA (3G) 信号。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>测试标准： Table 6.6.2.3.5.1-1&#x2F;Table 6.6.2.3.5.2-1 (P1846)<ul>
+<li>E-UTRA (LTE 邻居): &gt; 30 dB</li>
+<li>UTRA (WCDMA 邻居): &gt; 33 dB (通常这个更难过！)</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-核心描述-4"><a href="#2-核心描述-4" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>“频谱肩部 (Spectral Regrowth)”。<br>理想的信号频谱应该像一个矩形“门”，直上直下。<br>但由于 PA (功放) 的非线性效应，大功率发射时，频谱的两侧会长出像“肩膀”一样的裙边。这些多出来的能量就是泄漏。</p>
+<ul>
+<li>定义公式：<br>$$ ACLR &#x3D; P_{Assigned}(主信道功率) - P_{Adjacent}(邻信道功率) $$<br>(注：单位是 dB，意味着它是两个功率的差值&#x2F;比值)</li>
+</ul>
+<h2 id="3-测试目的-4"><a href="#3-测试目的-4" class="headerlink" title="3. 测试目的"></a>3. 测试目的</h2><ul>
+<li>解决“远近效应”： 如果你的 ACLR 很差（泄漏大），当你在小区边缘大功率发射时，你的泄漏能量可能会淹没隔壁信道在小区中心的一个弱用户的信号。</li>
+<li>共存： 保证 LTE 不会干扰到邻频的 3G (WCDMA) 或其他运营商的频段。</li>
+</ul>
+<h2 id="4-常见问题-4"><a href="#4-常见问题-4" class="headerlink" title="4. 常见问题"></a>4. 常见问题</h2><p>ACLR Fail 是 PA 调试中最常见的问题。看频谱的形状能告诉你很多秘密：<br>情况 A：左右肩膀一样高，且都很高 (Symmetric High)</p>
+<ul>
+<li>物理含义： 纯粹的 AM-AM 失真（幅度压缩）。</li>
+<li>原因： PA 饱和 (Saturation)。你把 PA 推到 1dB 压缩点 (P1dB) 以外了，信号被削顶 (Clipping)。</li>
+<li>对策：<ul>
+<li>降低发射功率（检查 Calibration 是否偏高）。</li>
+<li>检查 PA 的 VCC 电压是否被拉低（IR Drop）。</li>
+<li>优化输出匹配（Load-pull），让 PA 负载线回到线性区。<br>情况 B：左右肩膀不一样高 (Asymmetry)</li>
+</ul>
+</li>
+<li>物理含义： AM-PM 失真 或 记忆效应 (Memory Effect)。</li>
+<li>原因： PA 不仅对当前的信号失真，还记得“上一个毫秒”的信号。这通常是由于 Bias 电路或热效应引起的。</li>
+<li>对策：<ul>
+<li>查 Video Bandwidth (VBW): PA 的偏置电路 (V_bias) 供电必须能跟上信号包络的变化。检查 Bias 线上的大电容和电感谐振点。</li>
+<li>查散热： 只有一边翘起来，有时候是因为 PA 还没热透或者热过头了导致特性漂移。<br>情况 C：UTRA ACLR (33dB) 挂了，但 E-UTRA (30dB) 过了</li>
+</ul>
+</li>
+<li>原因： 这是常态。因为 WCDMA 的测量带宽 (3.84MHz) 比 LTE 的某些配置窄，且能量更集中。</li>
+<li>对策： 这是一个硬指标，通常只能通过牺牲效率（加大偏置电流）或者降低最大功率 (MPR) 来换取。</li>
+</ul>
+<h2 id="5-ACLR-与-MPR-Level-1-的回响"><a href="#5-ACLR-与-MPR-Level-1-的回响" class="headerlink" title="5. ACLR 与 MPR (Level 1 的回响)"></a>5. ACLR 与 MPR (Level 1 的回响)</h2><p>还记得我们在 Level 1 Max Power 里提到的 MPR (Maximum Power Reduction) 吗？<br>现在闭环了：</p>
+<ul>
+<li>为什么要允许 MPR (功率回退)？<ul>
+<li>就是为了救 ACLR！</li>
+</ul>
+</li>
+<li>逻辑链条：<ul>
+<li>当你是 Full RB (如 20M 100RB) 时，PAPR (峰均比) 很高，容易把 PA 推饱和，导致 ACLR 变差。</li>
+<li>此时，为了保住 ACLR 不挂 (Pass 30dB&#x2F;33dB)，3GPP 允许 你把最大功率从 23dBm 降低到 22dBm (MPR&#x3D;1) 甚至更低。</li>
+<li>牺牲功率，换取线性度。</li>
+</ul>
+</li>
+</ul>
+<h1 id="总结：射频发射机指标全景图-Tx-Hierarchy"><a href="#总结：射频发射机指标全景图-Tx-Hierarchy" class="headerlink" title="总结：射频发射机指标全景图 (Tx Hierarchy)"></a>总结：射频发射机指标全景图 (Tx Hierarchy)</h1><p>恭喜你！到现在为止，你已经建立了一个完整的射频发射机 (Tx) 知识体系。我们来复盘一下它们的关系：</p>
+<ul>
+<li>Freq Error: 频率准不准？（横向偏移）</li>
+<li>Carrier Leakage: 原点准不准？（中心偏移）</li>
+<li>EVM: 每个点准不准？（随机&#x2F;非线性误差）</li>
+<li>In-band Emission: 稍微远一点的杂散大不大？（自身干扰）</li>
+<li>ACLR: 隔壁邻居受没受影响？（邻道干扰）</li>
+</ul>
+
+    </article>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">总览</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81Frequency-Error-%E9%A2%91%E7%8E%87%E8%AF%AF%E5%B7%AE"><span class="toc-number">2.</span> <span class="toc-text">一、Frequency Error (频率误差)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95"><span class="toc-number">2.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0"><span class="toc-number">2.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84"><span class="toc-number">2.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">2.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81EVM-Error-Vector-Magnitude-%E8%AF%AF%E5%B7%AE%E7%9F%A2%E9%87%8F%E5%B9%85%E5%BA%A6"><span class="toc-number">3.</span> <span class="toc-text">二、EVM (Error Vector Magnitude, 误差矢量幅度)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-1"><span class="toc-number">3.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-1"><span class="toc-number">3.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-1"><span class="toc-number">3.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-1"><span class="toc-number">3.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81In-band-Emissions-%E5%B8%A6%E5%86%85%E6%9D%82%E6%95%A3-%E9%A2%91%E8%B0%B1%E5%8F%91%E5%B0%84%E6%A8%A1%E6%9D%BF"><span class="toc-number">4.</span> <span class="toc-text">三、In-band Emissions (带内杂散 &#x2F; 频谱发射模板)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-2"><span class="toc-number">4.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-2"><span class="toc-number">4.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-2"><span class="toc-number">4.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-2"><span class="toc-number">4.4.</span> <span class="toc-text">4. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Carrier-Leakage-Origin-Offset-%E8%BD%BD%E6%B3%A2%E6%B3%84%E6%BC%8F-%E5%8E%9F%E7%82%B9%E5%81%8F%E7%A7%BB"><span class="toc-number">5.</span> <span class="toc-text">Carrier Leakage &#x2F; Origin Offset (载波泄漏 &#x2F; 原点偏移)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-3"><span class="toc-number">5.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-3"><span class="toc-number">5.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-3"><span class="toc-number">5.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-3"><span class="toc-number">5.4.</span> <span class="toc-text">4. 常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%80%8E%E4%B9%88%E7%9C%8B%E7%BB%BC%E6%B5%8B%E4%BB%AA%E8%AF%BB%E6%95%B0%EF%BC%9F-Intern-Tip"><span class="toc-number">5.5.</span> <span class="toc-text">5. 怎么看综测仪读数？(Intern Tip)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81ACLR-Adjacent-Channel-Leakage-Ratio-%E9%82%BB%E9%81%93%E6%B3%84%E6%BC%8F%E6%AF%94"><span class="toc-number">6.</span> <span class="toc-text">五、ACLR (Adjacent Channel Leakage Ratio, 邻道泄漏比)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95-4"><span class="toc-number">6.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0-4"><span class="toc-number">6.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B5%8B%E8%AF%95%E7%9B%AE%E7%9A%84-4"><span class="toc-number">6.3.</span> <span class="toc-text">3. 测试目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98-4"><span class="toc-number">6.4.</span> <span class="toc-text">4. 常见问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-ACLR-%E4%B8%8E-MPR-Level-1-%E7%9A%84%E5%9B%9E%E5%93%8D"><span class="toc-number">6.5.</span> <span class="toc-text">5. ACLR 与 MPR (Level 1 的回响)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A%E5%B0%84%E9%A2%91%E5%8F%91%E5%B0%84%E6%9C%BA%E6%8C%87%E6%A0%87%E5%85%A8%E6%99%AF%E5%9B%BE-Tx-Hierarchy"><span class="toc-number">7.</span> <span class="toc-text">总结：射频发射机指标全景图 (Tx Hierarchy)</span></a></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2026/01/23/LTE 3GPP指标(3) -_ 灵敏度 (Sensitivity)/">LTE 3GPP指标(3) - 灵敏度 (Sensitivity)</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/">LTE 3GPP指标(1) - 功率 (Power)</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大家好！欢迎来到我的小站，希望你能在这里找到你想要的东西~ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"Reset","artist":"向井太一","url":"/music/Reset.mp3","cover":"/imgs/Reset%E9%9F%B3%E4%B9%90%E5%9B%BE%E6%A0%87.png"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll();
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+    });
+  </script>
+</body>
+</html>

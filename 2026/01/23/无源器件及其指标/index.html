@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ternura_xiang的个人博客—无源器件及其指标 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/public.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/iconfont.css" />
+  <link rel="stylesheet" href="/css/APlayer.min.css" />
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `Ternura_xiang的个人博客—无源器件及其指标`
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://ternura-xiang.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"C语言函数值转换与位解释","path":"2025/10/23/C语言函数值转换与位解释/"},{"title":"LTE 3GPP指标(1) - 功率 (Power)","path":"2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/"},{"title":"LTE 3GPP指标(0) - 测试条件","path":"2026/01/23/LTE 3GPP指标(0) -_ 测试条件/"},{"title":"LTE 3GPP指标(2) - 调制质量 & 频谱形状","path":"2026/01/23/LTE 3GPP指标(2) -_ 调制质量 & 频谱形状/"},{"title":"LTE 3GPP指标(4) - 阻塞 & 互调","path":"2026/01/23/LTE 3GPP指标(4) -_ 阻塞 & 互调/"},{"title":"LTE 3GPP指标(5) - 杂散发射","path":"2026/01/23/LTE 3GPP指标(5) -_ 杂散发射/"},{"title":"LTE 3GPP指标(3) - 灵敏度 (Sensitivity)","path":"2026/01/23/LTE 3GPP指标(3) -_ 灵敏度 (Sensitivity)/"},{"title":"LTE射频发送链路","path":"2026/01/23/LTE射频发送链路/"},{"title":"MOS管基本门逻辑电路","path":"2025/12/10/MOS管基本门逻辑电路/"},{"title":"回调函数注入","path":"2025/10/18/回调函数注入/"},{"title":"嵌入式C语言空指针错误分析与修复","path":"2025/10/21/嵌入式C语言空指针错误分析与修复/"},{"title":"无源器件及其指标","path":"2026/01/23/无源器件及其指标/"},{"title":"智能车大赛备赛笔记","cover":"https://free.picui.cn/free/2025/10/01/68dcc8b612578.jpg","path":"2025/10/01/智能车大赛备赛笔记/"},{"title":"缩写速查表","path":"2026/01/23/缩写速查表/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="/imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Xiang</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">Run！</span>
+          <span class="main-left--tag">电子</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“人生没有终点，只愿不留遗憾”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Ternura-xiang"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>3</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>12</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>3 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>14 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>406天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.0</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <link rel="stylesheet" href="/css/partial/article.css" />
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">无源器件及其指标</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            
+          </div>
+          
+          <p class="article-info--date">日期：2026-01-23 00:11:35</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content markdown-body">
+      <p>[TOC]<br>参考文献：<br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/cT0NiYd5MrGiBkX02RiqeQ">5G射频前端模组中的滤波器</a></p>
+<h1 id="一、滤波器"><a href="#一、滤波器" class="headerlink" title="一、滤波器"></a>一、滤波器</h1><p>在射频发射路径中，滤波器位于功率放大器的后侧；在射频接收路径中，滤波器位于低噪声放大器的前侧。<br><img src="https://free.picui.cn/free/9873/2026/11/08/6af0449fba63e.png" alt="滤波器频率曲线.png"></p>
+<h2 id="1-分类"><a href="#1-分类" class="headerlink" title="1. 分类"></a>1. 分类</h2><p><img src="https://free.picui.cn/free/9873/2026/11/08/6af045de5a9b0.png" alt="滤波器分类.png"><br>在特性上，LC滤波器与压电滤波器最大的区别就是<strong>带外抑制</strong>。压电滤波器可以做到陡峭的带外抑制，不过LC的滤波器可以做到大的通带带宽。</p>
+<h3 id="LC滤波器"><a href="#LC滤波器" class="headerlink" title="LC滤波器"></a>LC滤波器</h3><p><img src="https://free.picui.cn/free/9873/2026/11/08/6af045ac22a4a.png" alt="LC滤波器对比.png"></p>
+<h3 id="SAW"><a href="#SAW" class="headerlink" title="SAW"></a>SAW</h3><p>声表面波滤波器，工艺简单，性价比高，主要应用于3GHz以下的低频滤波。</p>
+<h3 id="BAW"><a href="#BAW" class="headerlink" title="BAW"></a>BAW</h3><p>体声波滤波器，插损低，性能优秀，可以适用于高频滤波，但工艺复杂，价格较高。一般用于求更高的4G、5G通讯</p>
+<h2 id="2-性能指标"><a href="#2-性能指标" class="headerlink" title="2. 性能指标"></a>2. 性能指标</h2><p><img src="https://free.picui.cn/free/9873/2026/11/08/6af045ac1042c.png" alt="无源器件性能指标.png"></p>
+<h3 id="衰减"><a href="#衰减" class="headerlink" title="衰减"></a>衰减</h3><p>一个信号通过射频滤波器后，产生的振幅损耗，通常用分贝 （dB） 表示。</p>
+<h3 id="通带"><a href="#通带" class="headerlink" title="通带"></a>通带</h3><p>让信号相对无衰减通过的区域。</p>
+<h3 id="中心频率（Center-Frequency）"><a href="#中心频率（Center-Frequency）" class="headerlink" title="中心频率（Center Frequency）"></a>中心频率（Center Frequency）</h3><p>滤波器通带的频率f0，一般取f0&#x3D;（f1+f2）&#x2F;2，f1、f2为带通或带阻滤波器左、右相对下降1dB或3dB边频点。窄带滤波器常以插损最小点为中心频率计算通带带宽。</p>
+<h3 id="截止频率（Cutoff-Frequency）"><a href="#截止频率（Cutoff-Frequency）" class="headerlink" title="截止频率（Cutoff Frequency）"></a>截止频率（Cutoff Frequency）</h3><p>指低通滤波器的通带右边频点及高通滤波器的通带左边频点。通常以1dB或3dB相对损耗点来标准定义。</p>
+<h3 id="插入损耗（Insertion-Loss）"><a href="#插入损耗（Insertion-Loss）" class="headerlink" title="插入损耗（Insertion Loss）"></a>插入损耗（Insertion Loss）</h3><p>由于滤波器的引入对电路中原有信号带来的衰耗，以中心或截止频率处损耗表征，如要求全带内插损需强调。</p>
+<h3 id="纹波（Ripple）"><a href="#纹波（Ripple）" class="headerlink" title="纹波（Ripple）"></a>纹波（Ripple）</h3><p>指1dB或3dB带宽（截止频率）范围内，插损随频率在损耗均值曲线基础上波动的峰值。</p>
+<h3 id="带内波动（Passband-Ripple）"><a href="#带内波动（Passband-Ripple）" class="headerlink" title="带内波动（Passband Ripple）"></a>带内波动（Passband Ripple）</h3><p>通带内插入损耗随频率的变化量。1dB带宽内的带内波动是1dB。</p>
+<h3 id="带内驻波比（VSWR）"><a href="#带内驻波比（VSWR）" class="headerlink" title="带内驻波比（VSWR）"></a>带内驻波比（VSWR）</h3><p>衡量滤波器通带内信号是否良好匹配传输的一项重要指标。理想匹配VSWR&#x3D;1：1，失配时VSWR&gt;1。对于一个实际的滤波器而言，满足VSWR&lt;1.5：1的带宽一般小于BW3dB，其占BW3dB的比例与滤波器阶数和插损相关。</p>
+<h3 id="回波损耗（Return-Loss）"><a href="#回波损耗（Return-Loss）" class="headerlink" title="回波损耗（Return Loss）"></a>回波损耗（Return Loss）</h3><p>端口信号输入功率与反射功率之比的分贝（dB）数，也等于20Log10ρ，ρ为电压反射系数。输入功率被端口全部吸收时回波损耗为无穷大。</p>
+<h3 id="阻带抑制度"><a href="#阻带抑制度" class="headerlink" title="阻带抑制度"></a>阻带抑制度</h3><p>衡量滤波器选择性能好坏的重要指标。该指标越高说明对带外干扰信号抑制的越好。通常有两种提法：一种为要求对某一给定带外频率fs抑制多少dB，计算方法为fs处衰减量；另一种为提出表征滤波器幅频响应与理想矩形接近程度的指标——矩形系数（KxdB大于1），KxdB&#x3D;BWxdB&#x2F;BW3dB，（X可为40dB、30dB、20dB等）。滤波器阶数越多矩形度越高——即K越接近理想值1，制作难度当然也就越大。</p>
+<h3 id="功率耐受"><a href="#功率耐受" class="headerlink" title="功率耐受"></a>功率耐受</h3><p>功率耐受指标表明滤波器对大功率的承受能力。</p>
+<h3 id="阻抗及收敛性"><a href="#阻抗及收敛性" class="headerlink" title="阻抗及收敛性"></a>阻抗及收敛性</h3><p>阻抗及收敛性直接影响滤波器的输入输出反射系数。滤波器的阻抗需要与外部电路匹配，越接近目标阻抗，对有用信号的反射越小，带内插损就越小；阻抗越收敛，带内波动就越小。<br><img src="https://free.picui.cn/free/9873/2026/11/08/6af045ac55fa9.png" alt="阻抗收散史密斯圆图像对比.png"></p>
+<h1 id="二、天线共用器-Diplexer"><a href="#二、天线共用器-Diplexer" class="headerlink" title="二、天线共用器(Diplexer)"></a>二、天线共用器(Diplexer)</h1><p>天线共用器(分集接收器)，由两组不同频率的带阻滤波器组成。利用高通、低通或带通滤波器的分频功能，使得同一天线或传输线可对两条信号路径进行使用，从而实现同一天线对两种多种不同频率信号的接收和发送.<br><img src="https://free.picui.cn/free/9873/2026/11/08/6af045ab95d04.png" alt="双工器模型图.png"></p>
+<h2 id="1-性能指标"><a href="#1-性能指标" class="headerlink" title="1. 性能指标"></a>1. 性能指标</h2><h3 id="滤波器的性能指标"><a href="#滤波器的性能指标" class="headerlink" title="滤波器的性能指标"></a>滤波器的性能指标</h3><p>双工器中内置两个带阻滤波器，具备滤波器的性能指标</p>
+<h3 id="隔离度"><a href="#隔离度" class="headerlink" title="隔离度"></a>隔离度</h3><p>指在同一频段内发送和接收两个信号之间的相互影响程度，决定于滤波器节数及频道间隔，一般大于55dB。</p>
+<h1 id="三、FDD双工器-Duplexer"><a href="#三、FDD双工器-Duplexer" class="headerlink" title="三、FDD双工器(Duplexer)"></a>三、FDD双工器(Duplexer)</h1><p>Duplexer是一种用于在同一频段上进行双向通信的射频器件，它允许发射机和接收机共用一根天线，但不会相互干扰。</p>
+<h2 id="1-Diplexer-Duplexer"><a href="#1-Diplexer-Duplexer" class="headerlink" title="1. Diplexer &amp; Duplexer"></a>1. Diplexer &amp; Duplexer</h2><table>
+<thead>
+<tr>
+<th align="center">区别</th>
+<th align="center">Diplexer</th>
+<th align="center">Duplexer</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">用途</td>
+<td align="center">将不同频段的信号合并到同一条传输线或从同一条传输线分离不同频段的信号</td>
+<td align="center">用于允许同一频段的发射和接收信号通过同一根天线，实现全双工通信</td>
+</tr>
+<tr>
+<td align="center">工作频段</td>
+<td align="center">两个不同频段的信号</td>
+<td align="center">同一频段上的发射和接收信号</td>
+</tr>
+<tr>
+<td align="center">内部结构</td>
+<td align="center">两个不同频段的滤波器组成</td>
+<td align="center">两个滤波器和一个隔离器组成，以实现同一频段的信号分离和隔离</td>
+</tr>
+<tr>
+<td align="center">应用场景</td>
+<td align="center">用于无线电设备中，将不同频段的信号分离或合并</td>
+<td align="center">通信设备中，实现同时发送和接收同一频段的信号</td>
+</tr>
+</tbody></table>
+<h1 id="四、耦合器"><a href="#四、耦合器" class="headerlink" title="四、耦合器"></a>四、耦合器</h1><p>耦合器是射频前端的“感知器官”，用于实时监测信号状态。</p>
+<h2 id="1-关键指标"><a href="#1-关键指标" class="headerlink" title="1. 关键指标"></a>1. 关键指标</h2><h3 id="频率范围"><a href="#频率范围" class="headerlink" title="频率范围"></a>频率范围</h3><h3 id="插入损耗"><a href="#插入损耗" class="headerlink" title="插入损耗"></a>插入损耗</h3><p>IL &#x3D;10<em>log（P1&#x2F;P2）&#x3D; -20</em>log（| S21 |） 输入&#x2F;输出 理想为0</p>
+<h3 id="耦合度"><a href="#耦合度" class="headerlink" title="耦合度"></a>耦合度</h3><p>决定了你“取样”的信号强度。耦合度越大（如10dB），取样信号越弱，对主路信号的影响（插损）通常越小。</p>
+<h3 id="隔离度-1"><a href="#隔离度-1" class="headerlink" title="隔离度"></a>隔离度</h3><p>I &#x3D;10<em>log（P1&#x2F;P4）&#x3D; -20</em>log（| S41 |） 输入&#x2F;隔离</p>
+<h3 id="方向性"><a href="#方向性" class="headerlink" title="方向性"></a>方向性</h3><p>定向耦合器的方向性可用来反映定向耦合器分离两个相反传输方向信号的能力。这是衡量耦合器质量的金标准。高方向性意味着它能很好地区分前行波和反射波，从而准确测量负载的匹配状态（如天线VSWR）。<br>D &#x3D; I (隔离度) - C (耦合度)</p>
+<h3 id="输入回波损耗"><a href="#输入回波损耗" class="headerlink" title="输入回波损耗"></a>输入回波损耗</h3><p>RL &#x3D; 10<em>log（P1&#x2F;P1’）&#x3D; -20</em>log| S11 |</p>
+<h3 id="工作带宽"><a href="#工作带宽" class="headerlink" title="工作带宽"></a>工作带宽</h3><p>I、D、C等参数均满足指标的工作频率范围。</p>
+<h2 id="2-使用场景"><a href="#2-使用场景" class="headerlink" title="2. 使用场景"></a>2. 使用场景</h2><h3 id="发射路径"><a href="#发射路径" class="headerlink" title="发射路径"></a>发射路径</h3><p>主要用于天线调谐和故障保护。通过检测反射功率，系统可以判断天线匹配是否良好（如被手握住时失配），并动态调整调谐网络，或在大反射时降低PA功率以保护器件。</p>
+<h3 id="接收路径"><a href="#接收路径" class="headerlink" title="接收路径"></a>接收路径</h3><p>应用较少，有时用于分集接收通道的监控。</p>
+
+    </article>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">一、滤波器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text">1. 分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LC%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">LC滤波器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SAW"><span class="toc-number">1.1.2.</span> <span class="toc-text">SAW</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BAW"><span class="toc-number">1.1.3.</span> <span class="toc-text">BAW</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-number">1.2.</span> <span class="toc-text">2. 性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%B0%E5%87%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">衰减</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E5%B8%A6"><span class="toc-number">1.2.2.</span> <span class="toc-text">通带</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E5%BF%83%E9%A2%91%E7%8E%87%EF%BC%88Center-Frequency%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">中心频率（Center Frequency）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%AA%E6%AD%A2%E9%A2%91%E7%8E%87%EF%BC%88Cutoff-Frequency%EF%BC%89"><span class="toc-number">1.2.4.</span> <span class="toc-text">截止频率（Cutoff Frequency）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8D%9F%E8%80%97%EF%BC%88Insertion-Loss%EF%BC%89"><span class="toc-number">1.2.5.</span> <span class="toc-text">插入损耗（Insertion Loss）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%B9%E6%B3%A2%EF%BC%88Ripple%EF%BC%89"><span class="toc-number">1.2.6.</span> <span class="toc-text">纹波（Ripple）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%86%85%E6%B3%A2%E5%8A%A8%EF%BC%88Passband-Ripple%EF%BC%89"><span class="toc-number">1.2.7.</span> <span class="toc-text">带内波动（Passband Ripple）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A6%E5%86%85%E9%A9%BB%E6%B3%A2%E6%AF%94%EF%BC%88VSWR%EF%BC%89"><span class="toc-number">1.2.8.</span> <span class="toc-text">带内驻波比（VSWR）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E6%B3%A2%E6%8D%9F%E8%80%97%EF%BC%88Return-Loss%EF%BC%89"><span class="toc-number">1.2.9.</span> <span class="toc-text">回波损耗（Return Loss）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E5%B8%A6%E6%8A%91%E5%88%B6%E5%BA%A6"><span class="toc-number">1.2.10.</span> <span class="toc-text">阻带抑制度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%9F%E7%8E%87%E8%80%90%E5%8F%97"><span class="toc-number">1.2.11.</span> <span class="toc-text">功率耐受</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%BB%E6%8A%97%E5%8F%8A%E6%94%B6%E6%95%9B%E6%80%A7"><span class="toc-number">1.2.12.</span> <span class="toc-text">阻抗及收敛性</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%A9%E7%BA%BF%E5%85%B1%E7%94%A8%E5%99%A8-Diplexer"><span class="toc-number">2.</span> <span class="toc-text">二、天线共用器(Diplexer)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-number">2.1.</span> <span class="toc-text">1. 性能指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%A4%E6%B3%A2%E5%99%A8%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="toc-number">2.1.1.</span> <span class="toc-text">滤波器的性能指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%94%E7%A6%BB%E5%BA%A6"><span class="toc-number">2.1.2.</span> <span class="toc-text">隔离度</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81FDD%E5%8F%8C%E5%B7%A5%E5%99%A8-Duplexer"><span class="toc-number">3.</span> <span class="toc-text">三、FDD双工器(Duplexer)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Diplexer-Duplexer"><span class="toc-number">3.1.</span> <span class="toc-text">1. Diplexer &amp; Duplexer</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E8%80%A6%E5%90%88%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">四、耦合器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87"><span class="toc-number">4.1.</span> <span class="toc-text">1. 关键指标</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%91%E7%8E%87%E8%8C%83%E5%9B%B4"><span class="toc-number">4.1.1.</span> <span class="toc-text">频率范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8D%9F%E8%80%97"><span class="toc-number">4.1.2.</span> <span class="toc-text">插入损耗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%80%A6%E5%90%88%E5%BA%A6"><span class="toc-number">4.1.3.</span> <span class="toc-text">耦合度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9A%94%E7%A6%BB%E5%BA%A6-1"><span class="toc-number">4.1.4.</span> <span class="toc-text">隔离度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E5%90%91%E6%80%A7"><span class="toc-number">4.1.5.</span> <span class="toc-text">方向性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%9B%9E%E6%B3%A2%E6%8D%9F%E8%80%97"><span class="toc-number">4.1.6.</span> <span class="toc-text">输入回波损耗</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%B8%A6%E5%AE%BD"><span class="toc-number">4.1.7.</span> <span class="toc-text">工作带宽</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">4.2.</span> <span class="toc-text">2. 使用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B0%84%E8%B7%AF%E5%BE%84"><span class="toc-number">4.2.1.</span> <span class="toc-text">发射路径</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E8%B7%AF%E5%BE%84"><span class="toc-number">4.2.2.</span> <span class="toc-text">接收路径</span></a></li></ol></li></ol></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+          
+            <p>
+              <span>上一篇：</span>
+              <a href="/2026/01/23/LTE 3GPP指标(0) -_ 测试条件/">LTE 3GPP指标(0) - 测试条件</a>
+            </p>
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2026/01/23/LTE射频发送链路/">LTE射频发送链路</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大家好！欢迎来到我的小站，希望你能在这里找到你想要的东西~ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"Reset","artist":"向井太一","url":"/music/Reset.mp3","cover":"/imgs/Reset%E9%9F%B3%E4%B9%90%E5%9B%BE%E6%A0%87.png"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll();
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+    });
+  </script>
+</body>
+</html>

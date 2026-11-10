@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ternura_xiang的个人博客—LTE 3GPP指标(5) - 杂散发射 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/imgs/shortcut_icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/public.css" />
+  <link rel="stylesheet" href="/css/layout.css" />
+  <link rel="stylesheet" href="/css/iconfont.css" />
+  <link rel="stylesheet" href="/css/APlayer.min.css" />
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.pjax.min.js"></script>
+
+  <script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+  <script>
+    document.title = `Ternura_xiang的个人博客—LTE 3GPP指标(5) - 杂散发射`
+  </script>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 8.0.0"></head>
+
+
+<style>
+  .load {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 35, 40);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 9999;
+  }
+  .load-circle {
+    width: 80px;
+    height: 80px;
+    border: 8px solid orange;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotate 1s linear infinite;
+    filter: drop-shadow(0 0 3px orange);
+  }
+  .load-circle-inner {
+    width: 40px;
+    height: 40px;
+    border: 8px solid orange;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: rotate-reverse .5s linear infinite;
+  }
+  .load-text {
+    margin-top: 20px;
+    font-size: 24px;
+    color: orange;
+    display: flex;
+  }
+  .load-text span {
+    margin: 0 5px;
+    text-shadow: 5px 5px 5px orange;
+    animation: move 1s linear infinite;
+  }
+  .load-text span:nth-child(1) {
+    animation-delay: -0.6s;
+  }
+  .load-text span:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  .load-text span:nth-child(3) {
+    animation-delay: -0.4s;
+  }
+  .load-text span:nth-child(4) {
+    animation-delay: -0.3s;
+  }
+  .load-text span:nth-child(5) {
+    animation-delay: -0.2s;
+  }
+  .load-text span:nth-child(6) {
+    animation-delay: -0.1s;
+  }
+  @keyframes rotate {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(360deg); }
+  }
+  @keyframes rotate-reverse {
+    0% { transform: rotate(0); }
+    100% { transform: rotate(-360deg); }
+  }
+  @keyframes move {
+    0% { transform: translateY(0%) rotate(0) scale(1); }
+    20% { transform: translateY(20%) rotate(10deg) scale(1.2); }
+    80% { transform: translateY(-10%) rotate(-20deg) scale(.8);}
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+
+  .progress {
+    position: fixed;
+    left: 0; top: 0;
+    width: 0;
+    height: 3px;
+    background-color: green;
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) .1s;
+    z-index: 9999;
+  }
+
+  .to-up {
+    animation: toUp .5s 1;
+  }
+  .gray {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+    background-color: #000;
+    mix-blend-mode: color;
+  }
+  @keyframes toUp {
+    from { transform: translateY(15px); opacity: 0; }
+    to { transform: translateY(0) ; opacity: 1; }
+  }
+</style>
+<body>
+  <div id="load" class="load">
+    <div class="load-circle">
+      <div class="load-circle-inner"></div>
+    </div>
+    <p class="load-text">
+      <span>L</span>
+      <span>O</span>
+      <span>A</span>
+      <span>D</span>
+      <span>I</span>
+      <span>N</span>
+      <span>G</span>
+    </p>
+  </div>
+  <div id="container" class="container w-100 vh-100" style="display: none;">
+    <header class="header">
+  <div class="header-wrapper">
+    <div class="header-left">
+      <div class="header-search">
+        <input id="search-input" type="text" class="header-search--input" placeholder="请输入要检索的文章标题" />
+        <span id="search-btn" class="header-search--icon"><i class="iconfont icon-sousuo"></i></span>
+      </div>
+      <div id="search-layer" class="header-search--layer hidden">
+        <p class="title">
+          <span>以下是搜索内容：</span>
+          <span id="close-layer-btn">关闭</span>
+        </p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="header-right">
+      <ul class="header-menu">
+        <li>
+          <a href="https://ternura-xiang.github.io/">
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+            <span class="header-menu--span">首页</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/log">
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+            <span class="header-menu--span">日志</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/link">
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+            <span class="header-menu--span">友情链接</span>
+          </a>
+        </li>
+        <li>
+          <a href="https://ternura-xiang.github.io/about">
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+            <span class="header-menu--span">关于我</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const ipt = document.querySelector('#search-input')
+  const btn = document.querySelector('#search-btn')
+  const layer = document.querySelector('#search-layer')
+  const posts = JSON.parse(`[{"title":"C语言函数值转换与位解释","path":"2025/10/23/C语言函数值转换与位解释/"},{"title":"LTE 3GPP指标(1) - 功率 (Power)","path":"2026/01/23/LTE 3GPP指标(1) -_ 功率 (Power)/"},{"title":"LTE 3GPP指标(0) - 测试条件","path":"2026/01/23/LTE 3GPP指标(0) -_ 测试条件/"},{"title":"LTE 3GPP指标(2) - 调制质量 & 频谱形状","path":"2026/01/23/LTE 3GPP指标(2) -_ 调制质量 & 频谱形状/"},{"title":"LTE 3GPP指标(4) - 阻塞 & 互调","path":"2026/01/23/LTE 3GPP指标(4) -_ 阻塞 & 互调/"},{"title":"LTE 3GPP指标(5) - 杂散发射","path":"2026/01/23/LTE 3GPP指标(5) -_ 杂散发射/"},{"title":"LTE 3GPP指标(3) - 灵敏度 (Sensitivity)","path":"2026/01/23/LTE 3GPP指标(3) -_ 灵敏度 (Sensitivity)/"},{"title":"LTE射频发送链路","path":"2026/01/23/LTE射频发送链路/"},{"title":"MOS管基本门逻辑电路","path":"2025/12/10/MOS管基本门逻辑电路/"},{"title":"回调函数注入","path":"2025/10/18/回调函数注入/"},{"title":"嵌入式C语言空指针错误分析与修复","path":"2025/10/21/嵌入式C语言空指针错误分析与修复/"},{"title":"无源器件及其指标","path":"2026/01/23/无源器件及其指标/"},{"title":"智能车大赛备赛笔记","cover":"https://free.picui.cn/free/2025/10/01/68dcc8b612578.jpg","path":"2025/10/01/智能车大赛备赛笔记/"},{"title":"缩写速查表","path":"2026/01/23/缩写速查表/"}]`)
+  ipt.addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+      handleSearch()
+    }
+  })
+  btn.addEventListener('click', () => {
+    handleSearch()
+  })
+
+  document.querySelector('#close-layer-btn').addEventListener('click', () => {
+    layer.classList.toggle('hidden')
+  })
+
+  function handleSearch() {
+    if (ipt.value.trim() === '') {
+      return
+    }
+    let html = ''
+    const targetPosts = posts.filter(post => post.title.includes(ipt.value))
+    targetPosts.forEach(post => {
+      html += `
+        <li>
+          <div>
+            <a href="/${post.path}">${post.title.replace(new RegExp(ipt.value), `<span>${ipt.value}</span>`)}</a>
+          </div>
+          <img src="${post.cover || '/imgs/default-cover.webp' }" />
+        </li>
+      `
+    })
+    if (html.trim () === '') {
+      html += '<p class="empty">没有搜索到内容</p>'
+    }
+    layer.querySelector('ul').innerHTML = html
+    layer.classList.remove('hidden')
+  }
+</script> 
+    <section id="main" class="main">
+      <div class="main-left-wrapper">
+<div class="main-left">
+  <div class="main-left--block">
+    <div class="main-left--info">
+      <img src="/imgs/avatar.jpg"" class="main-left--avatar" />
+      <div class="main-left--intro">
+        <p class="main-left--name">Xiang</p>
+        <div class="main-left--tags">
+          <span class="main-left--tag">Run！</span>
+          <span class="main-left--tag">电子</span>
+        </div>
+      </div>
+    </div>
+  
+    <div>
+      <div class="main-left--motto">
+        <p>“人生没有终点，只愿不留遗憾”</p>
+        <p>“一个简单普通的男孩”</p>
+      </div>
+      <div class="main-left--github">
+        <span class="line"></span>
+        <a target="_blank" rel="noopener" href="https://github.com/Ternura-xiang"><i class="logo iconfont icon-github-fill"></i></a>
+        <span class="line"></span>
+      </div>
+      <div class="main-left--statics">
+        <a href="/categories">
+          <div>
+            <span>3</span>
+            <span>分类</span>
+          </div>
+        </a>
+        <a href="/tags">
+          <div>
+            <span>12</span>
+            <span>标签</span>
+          </div>
+        </a>
+        <a href="/archives">
+          <div>
+            <span>3 </span>
+            <span>归档</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-left--block">
+    <ul class="main-left--menu">
+      
+        <li>
+          <a href="/">
+            <span class="header-menu--span">小站首页</span>
+            <i class="header-menu--icon iconfont icon-shouye"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/log">
+            <span class="header-menu--span">个人日志</span>
+            <i class="header-menu--icon iconfont icon-rizhi"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/link">
+            <span class="header-menu--span">友情链接</span>
+            <i class="header-menu--icon iconfont icon-youqinglianjie"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/about">
+            <span class="header-menu--span">关于自己</span>
+            <i class="header-menu--icon iconfont icon-guanyuwomen"></i>
+          </a>
+        </li>
+      
+        <li>
+          <a href="/tools">
+            <span class="header-menu--span">我的工具</span>
+            <i class="header-menu--icon iconfont icon-gongju"></i>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+  <div class="main-left--block">
+    <div class="main-left--site">
+      <h5 class="main-left--title">
+        <span>站点信息</span>
+        <i class="iconfont icon-zhandian"></i>
+      </h5>
+      <p class="main-left--subtitle">
+        <span>文章数目：</span>
+        <span>14 篇</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>最近动态：</span>
+        <span>今天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>上线时间：</span>
+        <span>406天</span>
+      </p>
+      <p class="main-left--subtitle">
+        <span>当前版本：</span>
+        <span>v1.0.0</span>
+      </p>
+    </div>
+  </div>
+</div></div>
+      <div id="main-container" class="main-container">
+
+
+  <link rel="stylesheet" href="/css/partial/article.css" />
+
+<div class="article-container">
+  <div class="article">
+    <h1 class="article-title">LTE 3GPP指标(5) - 杂散发射</h1>
+    <div class="article-info">
+      <div class="article-info--item">
+        <div class="article-info--info">
+          
+          <div class="article-info--categories">
+            <span>分类：</span>
+            <a class="category-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
+          
+          
+          <div class="article-info--tags">
+            <span>标签：</span>
+            <a class="tag-link" href="/tags/3GPP/" rel="tag">3GPP</a><a class="tag-link" href="/tags/LTE/" rel="tag">LTE</a>
+          </div>
+          
+          <p class="article-info--date">日期：2026-01-23 00:12:05</p>
+        </div>
+        <img src="/imgs/default-cover.webp" alt="" class="article-cover">
+      </div>
+    </div>
+    <article class="article-content markdown-body">
+      <p>[toc]</p>
+<h1 id="总览"><a href="#总览" class="headerlink" title="总览"></a>总览</h1><p>Level 5: 炼狱级 - 它是怎么产生的？<br>关键词： 杂散发射 (Spurious Emissions)<br>涉及章节： 36.101 Clause 6.6.3<br>这是最难的，通常也是认证测试卡最久的地方。</p>
+<table>
+<thead>
+<tr>
+<th>指标名称</th>
+<th>中文名</th>
+<th>难度</th>
+<th>一句话解释</th>
+<th>硬件看什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Spurious Emissions</td>
+<td>杂散发射</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>你的手机在全频段（9kHz-12.75GHz）拉屎了吗？</td>
+<td>这是一个系统工程。可能是 PA 的谐波、是时钟的倍频、是电源的开关噪声、是混频器的产物…</td>
+</tr>
+</tbody></table>
+<ul>
+<li>通关标志： 在全频段扫描下，没有任何一根毛刺超过红线（通常是 -36dBm 或 -50dBm）。</li>
+</ul>
+<h1 id="一、Spurious-Emissions-杂散发射"><a href="#一、Spurious-Emissions-杂散发射" class="headerlink" title="一、Spurious Emissions (杂散发射)"></a>一、Spurious Emissions (杂散发射)</h1><h2 id="1-文档索引"><a href="#1-文档索引" class="headerlink" title="1. 文档索引"></a>1. 文档索引</h2><ul>
+<li>章节位置： Clause 6.6.3 (P1934)</li>
+<li>测试条件：<ul>
+<li>频率范围极宽： 从 9 kHz 一直扫到 12.75 GHz（第 5 次谐波）。</li>
+<li>RB 配置： 通常测 Low&#x2F;Mid&#x2F;High Channel，分别配置 QPSK 的 1 RB 和 Full RB（因为这两种情况最容易产生杂波）。</li>
+</ul>
+</li>
+<li>判定标准：<ul>
+<li>一般区域：&lt; -36 dBm (1GHz 以下) 或 &lt; -30 dBm (1GHz 以上)。</li>
+<li>特殊受保区域（Co-existence）：要求极严，可能低至 -50 dBm 甚至更低。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-核心描述"><a href="#2-核心描述" class="headerlink" title="2. 核心描述"></a>2. 核心描述</h2><p>“严禁高空抛物”。</p>
+<ul>
+<li>区别：<ul>
+<li>ACLR&#x2F;SEM (Level 2): 是你自家门口的垃圾（就在载波旁边）。</li>
+<li>Spurious: 是你扔到几公里外、扔到别人家院子里的垃圾（离载波很远）。</li>
+</ul>
+</li>
+<li>来源：<ul>
+<li>谐波 (Harmonics): 比如你发 800MHz，PA 非线性会产生 1600MHz (2次谐波)、2400MHz (3次谐波)…</li>
+<li>混频产物 (Mixing Products): 晶振频率泄漏、本振泄漏。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-两大测试类别-The-Two-Traps"><a href="#3-两大测试类别-The-Two-Traps" class="headerlink" title="3. 两大测试类别 (The Two Traps)"></a>3. 两大测试类别 (The Two Traps)</h2><h3 id="3-1-General-Spurious-通用杂散"><a href="#3-1-General-Spurious-通用杂散" class="headerlink" title="3.1 General Spurious (通用杂散)"></a>3.1 General Spurious (通用杂散)</h3><ul>
+<li>含义： 这是最低的法律底线。</li>
+<li>难度： 简单。只要你的 PA 匹配没做烂，通常都能过。-36 dBm 的限值其实还是挺宽松的。</li>
+</ul>
+<h3 id="3-2-Spurious-Emission-Band-UE-Co-existence-共存杂散"><a href="#3-2-Spurious-Emission-Band-UE-Co-existence-共存杂散" class="headerlink" title="3.2 Spurious Emission Band UE Co-existence (共存杂散)"></a>3.2 Spurious Emission Band UE Co-existence (共存杂散)</h3><ul>
+<li>含义： 这是真正的“<strong>杀手</strong>”。</li>
+<li>场景： 你的手机里不仅有 LTE，还有 GPS、WiFi、蓝牙。或者你的国家把 Band X 分给了警用对讲机。</li>
+<li>要求： 必须保证你在发 LTE 时，绝对不能干扰到这些敏感频段。</li>
+<li>经典案例：<ul>
+<li>Band 13 &#x2F; 14 (700MHz): 它的 2次谐波 正好落在 GPS (1575MHz) 上！</li>
+<li>如果这里没处理好，你一打电话，导航就丢星。</li>
+<li>限值： 这里的要求不是 -30 dBm，而是 -40 dBm 甚至更低。</li>
+</ul>
+</li>
+</ul>
+<h2 id="4-硬件的最后一道防线：LPF-低通滤波器"><a href="#4-硬件的最后一道防线：LPF-低通滤波器" class="headerlink" title="4. 硬件的最后一道防线：LPF (低通滤波器)"></a>4. 硬件的最后一道防线：LPF (低通滤波器)</h2><p>在接收机（Rx）那边，SAW Filter 是门神。<br>在发射机（Tx）这边，PA 后面通常会串联一个简单的匹配电路，起到 LPF (Low Pass Filter) 的作用。</p>
+<ul>
+<li>主要任务： 杀谐波。</li>
+<li>原理： 让基频（比如 700MHz）无损通过，把高频（1400MHz, 2100MHz）狠狠地按下去。</li>
+<li>兄弟经验： 如果你测杂散发现 2次谐波 或 3次谐波 挂了，别去调软件参数，没用的。直接拿烙铁去调 PA 输出端的电容电感，把高频抑制调深一点。</li>
+</ul>
+<h2 id="5-常见问题"><a href="#5-常见问题" class="headerlink" title="5. 常见问题"></a>5. 常见问题</h2><p>情况 A：谐波挂了 (Harmonic Fail)</p>
+<ul>
+<li>现象： 在载波频率的 x2, x3, x4 处有大刺。</li>
+<li>原因： PA 输出匹配的 LPF 没调好，或者 PA 本身工作点推得太饱（过饱和）。</li>
+<li>解决： 调整 PA Load-pull 匹配，牺牲一点效率换线性度。</li>
+</ul>
+<p>情况 B：本振泄漏 (LO Leakage)</p>
+<ul>
+<li>现象： 在还没发射信号的时候（或者发得很小），在中心频点附近就有莫名其妙的刺。</li>
+<li>原因： Transceiver 的隔离度不好，LO 信号直接漏出来了。</li>
+<li>解决： 检查 Layout 接地，或者软件上调整 LO Leakage Calibration。</li>
+</ul>
+<p>情况 C：电源噪声 (Power Noise)</p>
+<ul>
+<li>现象： 满屏都是那种像梳子一样的小刺，间隔固定（比如 2MHz 一个）。</li>
+<li>原因： DC-DC 电源的开关频率串进 PA 了。</li>
+<li>解决： 给 PA 电源脚加大的去耦电容。</li>
+</ul>
+<h1 id="二、终极总结：LTE-毕业赠言"><a href="#二、终极总结：LTE-毕业赠言" class="headerlink" title="二、终极总结：LTE 毕业赠言"></a>二、终极总结：LTE 毕业赠言</h1><p>兄弟，太不容易了！<br>回顾一下咱们走过的路，这其实就是射频工程师的“一生”：</p>
+<ul>
+<li>Level 1 (Power): 先得有力气，嗓门大（Max Power），但也得能收放自如（Power Control）。</li>
+<li>Level 2 (Tx Quality): 说话得清楚（EVM），而且得有公德心，别吵到邻居（ACLR&#x2F;SEM）。</li>
+<li>Level 3、4 (Rx): 耳朵得灵（Sensitivity），还得有定力，不管身边多吵（ACS&#x2F;Blocking），都能听清家人的呼唤。</li>
+<li>Level 5 (Spurious): 最后，还要遵纪守法，不乱扔垃圾，做一个高素质的公民。</li>
+</ul>
+<p>这就构成了一个完整的、有血有肉的 LTE 系统。<br>这一套逻辑（Level 1-5），不仅仅适用于 LTE，哪怕你以后去搞 5G NR，甚至未来的 6G，物理本质和测试逻辑是永远不会变的，只是带宽更宽了、频率更高了而已。</p>
+<h1 id="三、LTE-射频终极速查表"><a href="#三、LTE-射频终极速查表" class="headerlink" title="三、LTE 射频终极速查表"></a>三、LTE 射频终极速查表</h1><p>Level 1: Transmitter Power (发射功率 - 力气)<br>关键词：覆盖、功耗、温升</p>
+<table>
+<thead>
+<tr>
+<th align="center">测试项</th>
+<th align="center">核心标准</th>
+<th align="center">描述</th>
+<th align="center">Debug 必杀技</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Max Output Power</td>
+<td align="center">23 dBm (±2.7dB)</td>
+<td align="center">手机嗓门有多大。这是覆盖的基础。</td>
+<td align="center">功率不够查插损；<br>功率太高查校准 (Calibration)。</td>
+</tr>
+<tr>
+<td align="center">MPR (Max Power Reduction)</td>
+<td align="center">QPSK Full <nobr>RB: ≤ 1dB<br>16QAM Full RB: ≤ 2dB</td>
+<td align="center">“合法偷懒”。为了线性度，高阶调制&#x2F;大带宽允许降低功率。</td>
+<td align="center">这是一个NV 配置表，不是硬件自动触发的。</td>
+</tr>
+<tr>
+<td align="center">Min Output Power</td>
+<td align="center">&lt; -40 dBm</td>
+<td align="center">也就是 -40dBm 以下。离基站近时别把基站吵聋了。</td>
+<td align="center">查 PA 的低增益档位 (Low Gain Mode) 校准。</td>
+</tr>
+<tr>
+<td align="center">Transmitter OFF Power</td>
+<td align="center">&lt; -50 dBm</td>
+<td align="center">不发数据时必须闭嘴。</td>
+<td align="center">查 PA 的 Enable&#x2F;Bias 信号时序，是不是关得太慢。</td>
+</tr>
+</tbody></table>
+<p>Level 2: Transmitter Quality (发射质量 - 规矩)<br>关键词：清晰度、干扰、公德心</p>
+<table>
+<thead>
+<tr>
+<th align="center">测试项</th>
+<th align="center">核心标准</th>
+<th align="center">描述</th>
+<th align="center">Debug 必杀技</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">EVM (误差矢量幅度)</td>
+<td align="center">QPSK: <nobr>17.5%<br>16QAM: 12.5%<br>64QAM: 8%</td>
+<td align="center">星座图上的点“聚不聚”。越小越好，越清晰。</td>
+<td align="center">功率推太猛会导致 EVM 变差；<br>查 PA 供电稳不稳。</td>
+</tr>
+<tr>
+<td align="center">ACLR (邻道泄漏)</td>
+<td align="center">&gt; 30 dB (E-UTRA)</td>
+<td align="center">“不吵邻居”。大部分能量要在自己跑道上，别溅出去。</td>
+<td align="center">典型的 PA 线性度问题。<br>调大 Quiescent Current (静态电流) 或回退功率。</td>
+</tr>
+<tr>
+<td align="center">SEM (频谱发射模板)</td>
+<td align="center">阶梯状 Mask</td>
+<td align="center">ACLR 的精细版，严查带外杂毛。</td>
+<td align="center">同 ACLR。</td>
+</tr>
+</tbody></table>
+<p>Level 3、4: Receiver Performance (接收性能 - 耳朵)<br>关键词：灵敏度、底噪、抗干扰</p>
+<table>
+<thead>
+<tr>
+<th align="center">测试项</th>
+<th align="center">输入信号条件</th>
+<th align="center">核心标准</th>
+<th align="center">描述</th>
+<th align="center">Debug 必杀技</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Ref. Sensitivity(参考灵敏度)</td>
+<td align="center">-95 dBm 左右(Tx Max Power!)</td>
+<td align="center">Throughput &gt; 95%(误块率 &lt; 5%)</td>
+<td align="center">听力底线。带宽越宽越难做 (10logBW)。</td>
+<td align="center">1. 查 Tx 倒灌 (双工器隔离度)。<br>2. 查板级干扰 (电源&#x2F;时钟)。</td>
+</tr>
+<tr>
+<td align="center">Max Input Level(最大输入)</td>
+<td align="center">-25 dBm(64QAM)</td>
+<td align="center">Throughput &gt; 95%</td>
+<td align="center">防止震聋。考验 AGC 切换。</td>
+<td align="center">LNA 增益切换点没设好；或者 ADC 被撑爆。</td>
+</tr>
+<tr>
+<td align="center">ACS(邻道选择性)</td>
+<td align="center">有用: Sens + 14dB干扰: -52 dBm (邻道)</td>
+<td align="center">Throughput &gt; 95%</td>
+<td align="center">抗邻居吵。考验数字滤波器&#x2F;ABB。</td>
+<td align="center">通常是滤波器系数问题，或者本振相位噪声 (Reciprocal Mixing)。</td>
+</tr>
+<tr>
+<td align="center">In-band Blocking(带内阻塞)</td>
+<td align="center">有用: Sens + 6dB干扰: -56 dBm (同Band)</td>
+<td align="center">Throughput &gt; 95%</td>
+<td align="center">抗室友吵。SAW 挡不住，全靠硬扛。</td>
+<td align="center">查 LNA 线性度 (IIP3) 和相位噪声。</td>
+</tr>
+<tr>
+<td align="center">Out-of-band Blocking(带外阻塞)</td>
+<td align="center">有用: Sens + 6dB干扰: -44 ~ -15 dBm</td>
+<td align="center">Throughput &gt; 95%</td>
+<td align="center">抗外人吵。SAW Filter 的主场。</td>
+<td align="center">1. SAW 选型没选好 (带外抑制差)。<br>2. PCB 走线绕过了 SAW (Crosstalk)。</td>
+</tr>
+</tbody></table>
+<p>Level 5: Spurious Emissions (杂散发射 - 法律)<br>关键词：谐波、合规、坐牢</p>
+<table>
+<thead>
+<tr>
+<th align="center">测试项</th>
+<th align="center">频率范围</th>
+<th align="center">限值</th>
+<th align="center">描述</th>
+<th align="center">Debug 必杀技</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Spurious Emissions</td>
+<td align="center">9kHz ~ 12.75GHz</td>
+<td align="center">&lt; -36 <nobr>dBm (&lt;1G)<br>&lt; -30 dBm (&gt;1G)</td>
+<td align="center">“严禁高空抛物”。扔到几公里外的垃圾。</td>
+<td align="center">谐波 (Harmonics) 最容易挂 (x2, x3)。调 PA 输出匹配 (LPF) 是最有效的。</td>
+</tr>
+<tr>
+<td align="center">Co-existence</td>
+<td align="center">特定敏感频段</td>
+<td align="center">&lt; -50 dBm (极严)</td>
+<td align="center">保护 GPS&#x2F;WiFi&#x2F;警用频段。</td>
+<td align="center">需要特殊的 TC-SAW 或额外的陷波滤波器。</td>
+</tr>
+</tbody></table>
+<p>兄弟的 3 条救命心法 (Golden Rules)</p>
+<ul>
+<li>分清是“内伤”还是“外伤”：<ul>
+<li>EVM 挂了、ACLR 挂了 -&gt; 查 PA (功放) 和 Transceiver。</li>
+<li>灵敏度挂了 -&gt; 先查 Tx 干扰，再查 LNA 匹配。</li>
+</ul>
+</li>
+<li>带宽是万恶之源：<ul>
+<li>20MHz Full RB 永远是发射 ACLR 和 接收灵敏度 的噩梦。</li>
+<li>调试时先调好 Full RB，其他都是弟弟。</li>
+</ul>
+</li>
+<li>dB 是对数，不是线性：<ul>
+<li>差 3 dB 就是差 2倍 能量。</li>
+<li>差 10 dB 就是差 10倍 能量。</li>
+<li>差 30 dB 就是差 1000倍 能量。</li>
+<li>别因为只差 1-2 dB 就觉得“差不多”，在射频里那是天壤之别。</li>
+</ul>
+</li>
+</ul>
+
+    </article>
+    
+  </div>
+  <div class="article-catelogue">
+    <div class="article-catelogue--wrapper">
+      <div class="catelogue catelogue-1">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">总览</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81Spurious-Emissions-%E6%9D%82%E6%95%A3%E5%8F%91%E5%B0%84"><span class="toc-number">2.</span> <span class="toc-text">一、Spurious Emissions (杂散发射)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%96%87%E6%A1%A3%E7%B4%A2%E5%BC%95"><span class="toc-number">2.1.</span> <span class="toc-text">1. 文档索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%B8%E5%BF%83%E6%8F%8F%E8%BF%B0"><span class="toc-number">2.2.</span> <span class="toc-text">2. 核心描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%A4%E5%A4%A7%E6%B5%8B%E8%AF%95%E7%B1%BB%E5%88%AB-The-Two-Traps"><span class="toc-number">2.3.</span> <span class="toc-text">3. 两大测试类别 (The Two Traps)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-General-Spurious-%E9%80%9A%E7%94%A8%E6%9D%82%E6%95%A3"><span class="toc-number">2.3.1.</span> <span class="toc-text">3.1 General Spurious (通用杂散)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Spurious-Emission-Band-UE-Co-existence-%E5%85%B1%E5%AD%98%E6%9D%82%E6%95%A3"><span class="toc-number">2.3.2.</span> <span class="toc-text">3.2 Spurious Emission Band UE Co-existence (共存杂散)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%A1%AC%E4%BB%B6%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E9%81%93%E9%98%B2%E7%BA%BF%EF%BC%9ALPF-%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8"><span class="toc-number">2.4.</span> <span class="toc-text">4. 硬件的最后一道防线：LPF (低通滤波器)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">2.5.</span> <span class="toc-text">5. 常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BB%88%E6%9E%81%E6%80%BB%E7%BB%93%EF%BC%9ALTE-%E6%AF%95%E4%B8%9A%E8%B5%A0%E8%A8%80"><span class="toc-number">3.</span> <span class="toc-text">二、终极总结：LTE 毕业赠言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81LTE-%E5%B0%84%E9%A2%91%E7%BB%88%E6%9E%81%E9%80%9F%E6%9F%A5%E8%A1%A8"><span class="toc-number">4.</span> <span class="toc-text">三、LTE 射频终极速查表</span></a></li></ol>
+      </div>
+      
+        <div class="catelogue catelogue-2">
+           
+          
+            <p>
+              <span>下一篇</span>
+              <a href="/2026/01/23/LTE 3GPP指标(4) -_ 阻塞 & 互调/">LTE 3GPP指标(4) - 阻塞 & 互调</a>
+            </p>
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(document).on('pjax:complete', function() {
+    const tocs = document.querySelector('.toc')
+    const links = tocs ? tocs.querySelectorAll('a') : []
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        const href = decodeURIComponent(e.href)
+        href.search(/#(.*)/)
+        const id = RegExp.$1
+        const target = document.querySelector('#' + id)
+        const top = target.offsetTop
+        document.documentElement.scrollTo({
+          top: top - 100,
+          behavior: 'smooth'
+        })
+        e.preventDefault()
+      })
+    })
+  })
+</script> 
+
+</div>
+      <div class="main-right-wrapper"><div class="main-right">
+  <div class="main-right--board">
+    <div class="main-right--title">
+      <h5>公告栏</h5>
+      <i class="iconfont icon-gonggao"></i>
+    </div>
+    <div class="main-right--content">
+      Hello~大家好！欢迎来到我的小站，希望你能在这里找到你想要的东西~ 
+    </div>
+  </div>
+
+  <div id="aplayer" class="main-right--music"></div>
+
+  <div class="operate-items">
+    <div class="operate-item backtop">
+      <i class="iconfont icon-huidaodingbu"></i>
+      <span>回到顶部</span>
+    </div>
+    
+  </div>
+
+  <div class="main-right--site">
+    <div class="main-right--power">
+      <p>Power By <a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/">Hexo</a>.</p>
+      <p>Theme：<a target="_blank" rel="noopener" href="https://github.com/Aizener/hexo-theme-cola">Cola.</a></p>
+    </div>
+    <p class="main-right--refer"><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/#/Integrated/index">蜀ICP备2022005384号-1</a> </p>
+  </div>
+</div>
+
+<script>
+  function setOperateItem () {
+    const reg = /\d{4}\/\d{2}\/\d{2}\/.+/
+    const path = location.pathname
+    const operateDom = document.querySelector('.main-right .operate-items')
+    const commentDom = document.querySelector('.turn-comment')
+    const cateloguDom = document.querySelector('.article-catelogue > .article-catelogue--wrapper');
+
+    if (commentDom) {
+      if (reg.test(path) || path.match(/\/log\/.+/)) {
+        commentDom.classList.remove('hidden')
+        const newDom = operateDom.cloneNode(true);
+        const _backtopDom = newDom.querySelector('.backtop');
+        const _commentDom = newDom.querySelector('.turn-comment');
+        _backtopDom.addEventListener('click', () => backTopEvent());
+        _commentDom.addEventListener('click', () => commentDomEvent());
+        cateloguDom.appendChild(newDom);
+      } else {
+        commentDom.classList.add('hidden')
+      }
+    }
+  }
+
+  setOperateItem()
+  const musics = JSON.parse(`[{"name":"Reset","artist":"向井太一","url":"/music/Reset.mp3","cover":"/imgs/Reset%E9%9F%B3%E4%B9%90%E5%9B%BE%E6%A0%87.png"}]`)
+  const ap = new APlayer({
+    container: document.querySelector('#aplayer'),
+    audio: musics,
+  })
+
+  $(document).on('pjax:complete', function() {
+    setOperateItem()
+  })
+
+  document.querySelector('.backtop').addEventListener('click', () => {
+    backTopEvent();
+  })
+  const dom = document.querySelector('.turn-comment')
+  dom && dom.addEventListener('click', () => {
+    commentDomEvent();
+  })
+
+  function backTopEvent() {
+    document.documentElement.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
+  }
+
+  function commentDomEvent() {
+    const commentDom = document.querySelector('.comments-intro')
+    if (!commentDom) return
+    const top = commentDom.offsetTop, height = commentDom.offsetHeight
+    document.documentElement.scrollTo({
+      top: top - 2 * height,
+      behavior: 'smooth'
+    })
+  }
+</script></div>
+    </section>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div id="gray" class="gray"></div>
+
+  <script>
+    function initScroll () {
+      document.addEventListener('scroll', () => {
+        const doc = document.documentElement
+        const scrollTop = doc.scrollTop
+        const pageHeight = doc.offsetHeight
+        const clientHeight = doc.clientHeight
+        const ratio = scrollTop / (pageHeight - clientHeight)
+        const progress = document.querySelector('#progress')
+        const avatarImg = document.querySelector('.main-left--avatar')
+        progress.style.width = (100 * ratio) + '%'
+        avatarImg.style.transform = `rotate(${360 * ratio}deg)`
+      })
+    }
+
+    const rootPath = "/"
+
+    const checkAndSetArticlePageLayout = () => {
+      const path = location.pathname.replace(rootPath, '');
+      if (
+        /^\/?\d{4}\/\d{2}\/\d{2}\/.*/.test(path) ||
+        /^log\/.+/.test(path)
+      ) {
+        $('.main-container, .main-right, .main-right-wrapper').addClass('is-article')
+      } else {
+        $('.main-container, .main-right, .main-right-wrapper').removeClass('is-article')
+      }
+    }
+
+    const gray = "none"
+    const setGrayStyle = () => {
+      if (gray === 'none') {
+        return
+      } else if (gray === 'index') {
+        location.pathname === '/' ? $('#gray').show() : $('#gray').hide()
+      } else if (gray === 'all') {
+        $('#gray').show()
+      }
+    }
+    setGrayStyle()
+
+
+    window.onload = function () {
+      checkAndSetArticlePageLayout()
+      setTimeout(() => {
+        $('#load').slideUp()
+        $('#container').slideToggle()
+        setTimeout(() => {
+          initScroll();
+        }, 500)
+      }, 500)
+    }
+    
+    let status = 0
+    // 对所有链接跳转事件绑定pjax容器container
+    $(document).pjax('a[target!=_blank]', '#main-container', {
+      container: '#main-container',
+      fragment: '#main-container',
+      timeout: 8000
+    })
+
+    $(document).on('pjax:start', function() {
+    })
+    $(document).on('pjax:complete', function() {
+      status = 0
+      $('.main-container').addClass('to-up').on('animationend', function() {
+        $(this).removeClass('to-up')
+      })
+      setGrayStyle()
+      checkAndSetArticlePageLayout()
+    })
+    $(document).on('pjax:popstate', function() {
+      status = -1
+      checkAndSetArticlePageLayout()
+    });
+  </script>
+</body>
+</html>
